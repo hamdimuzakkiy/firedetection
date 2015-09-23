@@ -1,0 +1,1 @@
+can't open file videocapture : http://stackoverflow.com/questions/11699298/opencv-2-4-videocapture-not-working-on-windows
