@@ -26,6 +26,14 @@ def getDatasetPixel(data):
 #sum array for sum data set R,G,B
 def sumArray(data):
     return np.sum(data,axis=0)
-
+#get sqrt data
 def getSquareRoot(data):
     return np.sqrt(data)
+#get substract list of tuple with tuple
+def getSubstractList(data,substractor):
+    for x in range(0,len(data)):
+        data[x] = int(data[x][0])-int(substractor[0]),int(data[x][1])-int(substractor[1]),int(data[x][2])-int(substractor[2])
+    return data
+
+def getPower(data,n):
+    return np.power(data,n)

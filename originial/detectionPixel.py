@@ -5,17 +5,17 @@ import data as dt
 
 def getMean(list):
     sumValue = dt.sumArray(list)
-    return sumValue/len(list)
+    sumValue = sumValue/len(list)
+    sumValue = sumValue[0],sumValue[1],sumValue[2]
+    return sumValue
 
 def getStandardDeviation(list, mean):
     countData = len(list)
-    list = list-mean
-    list = list*list
-    res = dt.sumArray(list)
-    print res
-    res = res / mean
-    print res
-    return dt.getSquareRoot(res)
+    list = dt.getPower(dt.getSubstractList(list,mean),2)
+    list = dt.sumArray(list)/countData
+    list = dt.getSquareRoot(list)
+    res = [list[0],list[1],list[2]]
+    return res
 
 def getPixelColorList(path):
     res = []
@@ -30,7 +30,7 @@ def getStdDevAndMean(path):
     listColor = getPixelColorList(path)
     mean = getMean(listColor)
     standarDev = getStandardDeviation(listColor,mean)
-    print standarDev
-    # res = [[1,2,3],[2,3,4]]
-    # res.append([1,2,3])
+    return standarDev,mean
+
+def getCandidatePixel(list, image, stdDev, mean):
     return
