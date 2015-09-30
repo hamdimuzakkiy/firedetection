@@ -22,6 +22,11 @@ def getMovingForeGround(file):
     global BckgrSbsMOG
     return getInit().apply(file,learningRate = getLearningRate())
 
+def getMovingForeGroundColor(original,file):
+    file = dt.toBooleanImage(file)
+    file = dt.to3Dimension(file)
+    return original * file
+
 #get moving pixel
 def getMovingPixel(file):
     listPixel = dt.getMovingPixel(file)

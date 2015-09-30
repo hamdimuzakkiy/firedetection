@@ -1,1 +1,2 @@
 https://kyamagu.github.io/mexopencv/matlab/BackgroundSubtractorMOG.history.html
+http://www.mathsisfun.com/data/standard-deviation.html

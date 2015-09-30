@@ -6,7 +6,7 @@ import backgroundSubstraction as bg
 
 
 nameFile = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
-# nameFile = 0
+nameFile = 0
 # doc : requirment : copy opencv_ffmpeg.dll from opencv to python27 folder
 O_capture = cv2.VideoCapture(nameFile) #param = "file name" or "device", 0 as device ( local cam )
 print "Status : ",O_capture.isOpened()
