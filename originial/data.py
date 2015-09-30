@@ -37,3 +37,14 @@ def getSubstractList(data,substractor):
 
 def getPower(data,n):
     return np.power(data,n)
+
+def getExp(data, stdDev,mean):
+    res = getPower((data-mean),2)
+    div = 2*getPower(stdDev,2)
+    return np.exp(res/div)
+
+def getGaussianProbability(data, stdDev, mean):
+    exp = getExp(data,stdDev,mean)
+    res = stdDev*getSquareRoot(2*np.pi)
+    res = 1/res
+    return res* exp

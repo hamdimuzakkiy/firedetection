@@ -24,6 +24,8 @@ def readVideo(file):
 def saveFrame(name,image):
     return cv2.imwrite(name,image)
 
+def readImage(file):
+    return cv2.imread(file)
 #wait video
 def waitVideo(sec):
     return cv2.waitKey(sec)
