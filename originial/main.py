@@ -4,16 +4,18 @@ import moving as mv
 import  pixelDetection as pd
 
 def readingVideo(videoFile):
-    stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage')
-    print vd.isOpened(videoFile)
+    stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage2')
+    print "Stdev : "+str(stdDev), "Mean : "+str(mean)
     while(vd.isOpened(videoFile)):
-        curentFrame = vd.readVideo(videoFile)[1]
-        movingFrame = mv.getMovingForeGround(curentFrame)
-        movingPixel = mv.getMovingPixel(movingFrame)
-        candidatePixel = pd.getCandidatePixel(movingPixel, curentFrame, stdDev, mean)
-        # movingFrame2 =
-        vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
 
+        curentFrame = vd.readVideo(videoFile)[1]
+        movingFrame = mv.getMovingForeGround(vd.copyFile(curentFrame))
+        movingPixel = mv.getMovingPixel(vd.copyFile(movingFrame))
+        candidatePixel = pd.getCandidatePixel(movingPixel, curentFrame, stdDev, mean)
+        foregroundImage = mv.getMovingForeGroundColor(vd.copyFile(curentFrame),vd.copyFile(movingFrame))
+        # movingFrame2 =
+        # vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
+        vd.showVideo('haha',curentFrame)
         vd.waitVideo(1)
 
     return

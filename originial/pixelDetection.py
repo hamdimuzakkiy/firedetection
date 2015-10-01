@@ -45,7 +45,7 @@ def probabilityDistribution(data, stdDev, mean):
 def isCandidatePixel(data, stdDev, mean):
     global threshold
     if (probabilityDistribution(data, stdDev, mean)>threshold):
-        print probabilityDistribution(data, stdDev, mean)
+        # print probabilityDistribution(data, stdDev, mean)
         return True
     return False
 

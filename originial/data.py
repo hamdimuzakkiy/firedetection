@@ -39,12 +39,15 @@ def getPower(data,n):
     return np.power(data,n)
 
 def getExp(data, stdDev,mean):
+    data = int(data)
+    stdDev = int(stdDev)
+    mean = int(mean)
     res = getPower((data-mean),2)
     div = 2*getPower(stdDev,2)
     return np.exp(res/div)
 
 def getGaussianProbability(data, stdDev, mean):
     exp = getExp(data,stdDev,mean)
-    res = stdDev*getSquareRoot(2*np.pi)
+    res = getSquareRoot(2*np.pi*stdDev)
     res = 1/res
     return res* exp

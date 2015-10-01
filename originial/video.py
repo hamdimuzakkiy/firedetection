@@ -32,3 +32,6 @@ def waitVideo(sec):
 
 def countFrame(file):
     return file.get(7)
+
+def copyFile(file):
+    return file.copy()
