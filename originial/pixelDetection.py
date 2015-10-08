@@ -1,4 +1,5 @@
 __author__ = 'hamdiahmadi'
+import excel
 import os
 import cv2
 import data as dt
@@ -24,6 +25,7 @@ def getPixelColorList(path):
         image = cv2.imread(path+'/'+data)
         pixel = dt.getDatasetPixel(image)
         res.extend(pixel)
+    # excel.save(res)
     return res
 
 def getStdDevAndMean(path):
@@ -45,7 +47,7 @@ def probabilityDistribution(data, stdDev, mean):
 def isCandidatePixel(data, stdDev, mean):
     global threshold
     if (probabilityDistribution(data, stdDev, mean)>threshold):
-        # print probabilityDistribution(data, stdDev, mean)
+        # print data,probabilityDistribution(data, stdDev, mean)
         return True
     return False
 
@@ -60,4 +62,4 @@ def getCandidatePixel(list, image, stdDev, mean):
             falsePixel.append([list[0][x],list[1][x]])
     return truePixel,falsePixel
 
-threshold = 0.1
+threshold = pow(10,-7)

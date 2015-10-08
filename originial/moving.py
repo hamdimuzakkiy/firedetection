@@ -32,6 +32,12 @@ def getMovingPixel(file):
     listPixel = dt.getMovingPixel(file)
     return listPixel
 
+# making list pixel to black
+def delPixel(list, image):
+    for x in range(0,len(list)):
+        image [list[x][0]][list[x][1]] = [0,0,0]
+    return image
+
 learningRate = 0.9
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 
