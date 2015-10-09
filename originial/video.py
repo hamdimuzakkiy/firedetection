@@ -35,3 +35,6 @@ def countFrame(file):
 
 def copyFile(file):
     return file.copy()
+
+def toGray(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
