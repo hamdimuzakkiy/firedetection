@@ -10,7 +10,7 @@ def readingVideo(videoFile):
         os.mkdir('../../corpeds/'+videoName)
     while(vd.isOpened(videoFile) and a != vd.countFrame(videoFile)-50):
         curentFrame = vd.readVideo(videoFile)[1]
-        # movingFrame = mv.getMovingForeGround(curentFrame)
+        movingFrame = mv.getMovingForeGround(curentFrame)
         # vd.saveFrame('../../corpeds/'+videoName+'/'+str(a)+'.png',mv.getMovingForeGroundColor(curentFrame,movingFrame))
         vd.saveFrame('../../corpeds/'+videoName+'/'+str(a)+'.png',curentFrame)
         vd.waitVideo(1)

@@ -1,11 +1,10 @@
 __author__ = 'hamdiahmadi'
 import numpy as np
-import cv2
 
 #return pixel from moving - getMovingPixel
 def getMovingPixel(data):
-    listX,listY = np.where( data == 255 )
-    return np.vstack((listX,listY))
+    listY,listX = np.where( data == 255 )
+    return np.vstack((listY,listX))
 
 def toBooleanImage(data):
     return data/255

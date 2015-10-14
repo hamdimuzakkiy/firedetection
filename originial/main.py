@@ -8,6 +8,9 @@ def readingVideo(videoFile):
     print "Stdev : "+str(stdDev), "Mean : "+str(mean)
     print "Video Frame : ",vd.countFrame(videoFile)
     print "Video Size : ",len(vd.readVideo(videoFile)[1]),len(vd.readVideo(videoFile)[1][0])
+
+    count = 0
+
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
@@ -20,9 +23,24 @@ def readingVideo(videoFile):
             ListCandidatePixel = pd.getCandidatePixel(movingPixel, curentFrame, stdDev, mean)
             candidatePixel = mv.delPixel(ListCandidatePixel[1], mv.getMovingForeGroundColor(curentFrame,movingFrame))
 
-            vd.showVideo('original',curentFrame)
-            vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
-            vd.showVideo('haha2',candidatePixel)
+
+            print ListCandidatePixel[0]
+            if (count == 20):
+                return
+            count+=1
+                # return
+
+            # print ListCandidatePixel[0]
+            # print ListCandidatePixel[0]
+            # print movingPixel
+            # print '==================='
+            # count+=1
+            # if count == 30:
+            #     return
+
+            # vd.showVideo('original',curentFrame)
+            # vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
+            # vd.showVideo('haha2',candidatePixel)
             vd.waitVideo(1)
 
         except :
@@ -31,7 +49,7 @@ def readingVideo(videoFile):
     return
 
 if __name__ == '__main__':
-    fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
+    fileName = '../../dataset/data2/flame1.avi'
     videoFile = vd.openVideo(fileName)
     readingVideo(videoFile)
     vd.closeVideo(videoFile)
