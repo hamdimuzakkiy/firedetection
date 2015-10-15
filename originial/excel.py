@@ -1,9 +1,9 @@
 __author__ = 'hamdiahmadi'
 import xlwt
-
+import xlrd
+from xlutils.copy import copy
 
 def save(data):
-
     book = xlwt.Workbook()
     sheets = book.add_sheet("TA")
     B = "B"
@@ -23,4 +23,15 @@ def save(data):
 
     book.save("TA.xls")
 
-
+def saveDataSet(file,content,classes):
+    wb = xlrd.open_workbook(filename=file)
+    data = wb.sheet_by_index(1)
+    wb2 = copy(wb)
+    data2 = wb2.get_sheet(1)
+    col = 0
+    for x in content :
+        data2.write(data.nrows,col,x)
+        col+=1
+    data2.write(data.nrows,col,classes)
+    wb2.save(file)
+# saveDataSet("aa","bb")

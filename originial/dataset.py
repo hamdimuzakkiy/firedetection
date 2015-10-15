@@ -12,7 +12,7 @@ def readingVideo(videoFile):
 
     count = 0
     arr = [[[0,x,y] for x in range(len(vd.readVideo(videoFile)[1][0]))] for y in range(len(vd.readVideo(videoFile)[1]))]
-
+    arr2 = dict()
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
@@ -31,11 +31,6 @@ def readingVideo(videoFile):
             if (count == 100):
                 return arr
             count+=1
-
-            # vd.showVideo('original',curentFrame)
-            # vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
-            # vd.showVideo('haha2',candidatePixel)
-            vd.waitVideo(1)
         except :
             print "Video Stopped"
             return
