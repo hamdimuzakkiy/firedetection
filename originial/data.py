@@ -51,3 +51,8 @@ def getGaussianProbability(data, stdDev, mean):
     res = stdDev*getSquareRoot(2*np.pi)
     res = 1/res
     return res* exp
+
+def getNormalRange(data):
+    max = np.max(data)
+    res = np.sort(data/max)
+    return res

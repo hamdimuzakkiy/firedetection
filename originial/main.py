@@ -2,17 +2,17 @@ __author__ = 'hamdiahmadi'
 import video as vd
 import moving as mv
 import pixelDetection as pd
-import numpy
+import classification as cls
+import wavelet as wv
 
 def readingVideo(videoFile):
     stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage2')
     print "Stdev : "+str(stdDev), "Mean : "+str(mean)
     print "Video Frame : ",vd.countFrame(videoFile)
     print "Video Size : ",len(vd.readVideo(videoFile)[1]),len(vd.readVideo(videoFile)[1][0])
-
-    count = 0
-    arr = [[[0,x,y] for x in range(len(vd.readVideo(videoFile)[1][0]))] for y in range(len(vd.readVideo(videoFile)[1]))]
-
+    classifier = cls.getClassification()
+    ListHighPassWavelet = wv.setData()
+    counter = 0
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
@@ -25,16 +25,19 @@ def readingVideo(videoFile):
             ListCandidatePixel = pd.getCandidatePixel(movingPixel, curentFrame, stdDev, mean)
             candidatePixel = mv.delPixel(ListCandidatePixel[1], mv.getMovingForeGroundColor(curentFrame,movingFrame))
 
-            print ListCandidatePixel[0]
-            for x in ListCandidatePixel[0]:
-                arr[x[0]][x[1]][0]+=1
-            if (count == 100):
-                return arr
-            count+=1
+            #wavelet
+            LL,(HL,LH,HH) = wv.toWavelet(vd.toGray(curentFrame))
+            ListHighPassWavelet[counter%10] = [LH,HL,HH]
+            counter+=1
+            if (counter < 10):
+                continue
+            ListFirePixel = cls.doClassification(classifier, ListCandidatePixel[0], ListHighPassWavelet)
+            if len(ListCandidatePixel[0]) !=0 :
+                print counter,len(ListFirePixel),len(ListCandidatePixel[0])
 
-            # vd.showVideo('original',curentFrame)
-            # vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
-            # vd.showVideo('haha2',candidatePixel)
+            vd.showVideo('original',curentFrame)
+            vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
+            vd.showVideo('haha2',candidatePixel)
             vd.waitVideo(1)
         except :
             print "Video Stopped"
@@ -42,7 +45,8 @@ def readingVideo(videoFile):
     return
 
 if __name__ == '__main__':
-    fileName = '../../dataset/data2/flame1.avi'
+    fileName = '../../dataset/data1/smoke_or_flame_like_object_3.avi'
+    fileName = '../../dataset/Gundam Wing OP 2 HD.3gp'
     videoFile = vd.openVideo(fileName)
     res = readingVideo(videoFile)
     vd.closeVideo(videoFile)
