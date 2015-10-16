@@ -18,15 +18,28 @@ def readingVideo(videoFile,start,countFrame,coory,coorx):
             if frameCounter == start+countFrame:
                 return res
         except :
+            print "Wrong"
             return res
 
-coory,coorx = 96, 193
-start = 0
-countFrame = 10
-fileName = '../../dataset/data2/flame1.avi'
-classes = "Api"
-videoFile = vd.openVideo(fileName)
-res = readingVideo(videoFile,start,countFrame,coory,coorx)
-max = np.max(res)
-res = np.sort(res/max)
-excel.saveDataSet('TA.xls',res,classes)
+def getNormalRange(data):
+    max = np.max(data)
+    res = np.sort(data/max)
+    return res
+excelFile = 'TA.xls'
+StoreDataSet = excel.retriveListDataset(excelFile)
+
+for x in StoreDataSet:
+    videoFile = vd.openVideo(x[0])
+    res = readingVideo(videoFile,float(x[3]),10,float(x[1]),float(x[2]))
+    res = getNormalRange(res)
+    excel.saveDataSet('TA.xls',res,x[4])
+# coory,coorx = 96, 193
+# start = 0
+# countFrame = 10
+# fileName = '../../dataset/data2/flame1.avi'
+# classes = "Api"
+# videoFile = vd.openVideo(fileName)
+# res = readingVideo(videoFile,start,countFrame,coory,coorx)
+# max = np.max(res)
+# res = np.sort(res/max)
+# excel.saveDataSet('TA.xls',res,classes)
