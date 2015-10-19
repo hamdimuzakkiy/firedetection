@@ -25,7 +25,6 @@ def getPixelColorList(path):
         image = cv2.imread(path+'/'+data)
         pixel = dt.getDatasetPixel(image)
         res.extend(pixel)
-    # excel.save(res)
     return res
 
 def getStdDevAndMean(path):
@@ -62,4 +61,4 @@ def getCandidatePixel(list, image, stdDev, mean):
             falsePixel.append([list[0][x],list[1][x]])
     return truePixel,falsePixel
 
-threshold = pow(10,-7)
+threshold = pow(10,-9)

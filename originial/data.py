@@ -54,5 +54,14 @@ def getGaussianProbability(data, stdDev, mean):
 
 def getNormalRange(data):
     max = np.max(data)
-    res = np.sort(data/max)
+    data /= (max/max*255)
+    res = np.sort(data)
     return res
+
+def getStdev(arr):
+    return np.std(arr)
+
+def getAverage(arr):
+    return np.average(arr)
+
+

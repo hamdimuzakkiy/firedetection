@@ -38,3 +38,10 @@ def copyFile(file):
 
 def toGray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+def getGaussian(image, filters):
+    image = cv2.blur(image,(filters,filters))
+    return image
+
+def getEdge(image):
+    return cv2.Canny(image,100,200)

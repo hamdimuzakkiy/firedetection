@@ -38,6 +38,6 @@ def delPixel(list, image):
         image [list[x][0]][list[x][1]] = [0,0,0]
     return image
 
-learningRate = 0.9
+learningRate = 0.5
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 

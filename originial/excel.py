@@ -3,24 +3,28 @@ import xlwt
 import xlrd
 from xlutils.copy import copy
 
-def save(data):
+def save(data,sheet_name):
     book = xlwt.Workbook()
-    sheets = book.add_sheet("TA")
+    sheets = book.add_sheet(sheet_name)
     B = "B"
     R = "R"
     G = "G"
     variabel = [B,R,G]
-
+    print len(data),sheet_name
     sheets.write(0,0,B)
     sheets.write(0,1,G)
     sheets.write(0,2,R)
     count = 1
-    for x in data:
-        sheets.write(count,0,int(x[0]))
-        sheets.write(count,1,int(x[1]))
-        sheets.write(count,2,int(x[2]))
-        count+=1
-    book.save("TA.xls")
+    try :
+        for x in data:
+            sheets.write(count,0,int(x[0]))
+            sheets.write(count,1,int(x[1]))
+            sheets.write(count,2,int(x[2]))
+            count+=1
+    except :
+        pass
+
+    book.save("TA1.xls")
 
 def saveDataSet(file,content,classes):
     wb = xlrd.open_workbook(filename=file)
