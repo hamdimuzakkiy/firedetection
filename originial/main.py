@@ -5,6 +5,7 @@ import pixelDetection as pd
 import classification as cls
 import wavelet as wv
 import luminance as lu
+import copy
 
 def readingVideo(videoFile):
     stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage2')
@@ -16,6 +17,12 @@ def readingVideo(videoFile):
     ListMap = lu.setData()
     ListEdge = lu.setData()
     counter = 0
+    sumLuminance = 0
+    sumMoving = 0
+    sumProb = 0
+    sumFinal = 0
+    sumFinal2 = 0
+    sumFalsePixel = 0
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
@@ -33,44 +40,62 @@ def readingVideo(videoFile):
             gaussian13 = vd.getGaussian(vd.toGray(curentFrame),13)
             gaussian = (gaussian7+gaussian13)/2
 
-            edge = vd.getEdge(vd.toGray(curentFrame))
-            vd.showVideo('edge',edge)
+            # vd.showVideo('newgauss',mv.delPixel2(vd.copyFile(gaussian7),threshold))
+
+            # edge = vd.getEdge(vd.toGray(curentFrame))
 
             # wavelet
             LL,(HL,LH,HH) = wv.toWavelet(vd.toGray(curentFrame))
 
             ListHighPassWavelet[counter%10] = [LH,HL,HH]
-            ListMap[counter%10] = gaussian
-            ListEdge[counter%10] = edge
+            # ListMap[counter%10] = gaussian
+            # ListEdge[counter%10] = edge
             counter+=1
             if (counter < 10):
                 continue
 
-            luminance = lu.getLuminancePixel(ListCandidatePixel[0], ListMap)
-            ListFirePixel = cls.doClassification(classifier, luminance, ListHighPassWavelet)
+
+            # luminance = lu.getLuminancePixel(ListCandidatePixel[0], ListMap)
+            print counter
+            luminancePixel = lu.getLuminancePixel2(ListCandidatePixel[0],gaussian7)
+            ListFirePixel = cls.doClassification(classifier, luminancePixel, ListHighPassWavelet)
+            ListFirePixel2 = cls.doClassification(classifier, ListCandidatePixel[0], ListHighPassWavelet)
+
+            sumFinal+=len(ListFirePixel)
+            sumFinal2+=len(ListFirePixel2)
+            sumLuminance+=len(luminancePixel)
+            sumMoving+=len(movingPixel[0])
+            sumProb+=len(ListCandidatePixel[0])
 
             # if (len(ListFirePixel)!=1010101):
             #     print counter,len(luminance),len(ListCandidatePixel[0]),len(ListFirePixel)
 
-            ListEdgePixel = lu.edge(ListFirePixel,ListEdge)
-            print len(ListEdgePixel)
+            # ListEdgePixel = lu.edge(ListFirePixel,ListEdge)
+            # sumFalsePixel+=len(ListEdgePixel)
             # ListFirePixel = cls.doClassification(classifier, ListEdgePixel, ListHighPassWavelet)
 
             # if len(ListCandidatePixel[0]) !=0:
             #     print counter,len(ListFirePixel),len(luminance),len(ListCandidatePixel[0])
 
             vd.showVideo('original',curentFrame)
-            vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
-            vd.showVideo('haha2',candidatePixel)
+            # vd.showVideo('haha',mv.getMovingForeGroundColor(curentFrame,movingFrame))
+            # vd.showVideo('haha2',candidatePixel)
             vd.waitVideo(1)
         except :
-            print "Video Stopped"
+            print "Video Stopped : ", str(sumFalsePixel)
+            print "Moving : ",sumMoving
+            print "Probability : ",sumProb
+            print "Luminance : ",sumLuminance
+            print "Final : ",sumFinal
+            print "Final2 : ",sumFinal2
             return
     return
 
 if __name__ == '__main__':
     fileName = '../../dataset/data2/flame2.avi'
-    fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
+    # fileName = '../../dataset/Why you should never extinguish a grease fire with water.mp4'
+    fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
+    print fileName
     videoFile = vd.openVideo(fileName)
     res = readingVideo(videoFile)
     vd.closeVideo(videoFile)

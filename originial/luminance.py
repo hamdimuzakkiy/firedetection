@@ -12,6 +12,7 @@ def getMyu(data):
 
 def getVariance(data,Myu,sums):
     sum = 0
+    print data
     for x in range(0,len(data)):
         sum+=(dt.getPower(float(x+1)-float(Myu),2)*float(data[x]))
     return float(sum)/float(sums)
@@ -51,3 +52,11 @@ def edge(List, ListImage):
         if dct > 3:
             result.append([x[0],x[1]])
     return result
+
+def getLuminancePixel2(list, image):
+    res = []
+    threshold = dt.sum2D(image)/(len(image)*len(image[0]))
+    for x in list:
+        if (image[x[0]][x[1]]>=threshold):
+            res.append(x)
+    return res

@@ -54,8 +54,10 @@ def getGaussianProbability(data, stdDev, mean):
 
 def getNormalRange(data):
     max = np.max(data)
-    data /= (max/max*255)
-    res = np.sort(data)
+    res = []
+    for x in data:
+        res.append(float(x)/float(max+1))
+    res = np.sort(res)
     return res
 
 def getStdev(arr):
@@ -64,4 +66,8 @@ def getStdev(arr):
 def getAverage(arr):
     return np.average(arr)
 
+def getSort(arr):
+    return np.sort(arr)
 
+def sum2D(data):
+    return  sum(map(sum, data))

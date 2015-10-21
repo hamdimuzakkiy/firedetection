@@ -12,7 +12,7 @@ def readDataSet(file):
 
 def getClassification():
     x,y = readDataSet("waveletData/TA.xls")
-    clf = svm.SVC(kernel = 'rbf')
+    clf = svm.SVC(kernel = 'rbf',C = 1)
     clf.fit(x,y)
     return clf
 
@@ -23,6 +23,10 @@ def doClassification(classifier, list, wavelet):
         data = dt.getNormalRange(data)
         if classifier.predict(data) == 'Api':
             res.append([x[0],x[1]])
-        # else:
-        #     print data
+        else:
+            pass
     return res
+
+classifier = getClassification()
+data = [0.382359758,	0.382359758,	0.455071496,	0.460072952,	0.576098384,	0.576098384,	0.577600367,	0.577600367	,0.785780043,	0.996120246]
+print classifier.predict(data)

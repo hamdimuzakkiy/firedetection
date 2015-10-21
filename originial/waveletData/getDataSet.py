@@ -1,4 +1,5 @@
 __author__ = 'hamdiahmadi'
+
 import video as vd
 import wavelet as wv
 import numpy as np
@@ -32,6 +33,7 @@ StoreDataSet = excel.retriveListDataset(excelFile)
 for x in StoreDataSet:
     videoFile = vd.openVideo('../'+x[0])
     res = readingVideo(videoFile,float(x[3]),10,float(x[1]),float(x[2]))
+    print x,res,float(x[3]),float(x[1]),float(x[2])
     res = dt.getNormalRange(res)
     excel.saveDataSet('TA.xls',res,x[4])
 # coory,coorx = 96, 193
