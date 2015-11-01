@@ -55,8 +55,11 @@ def edge(List, ListImage):
 
 def getLuminancePixel2(list, image):
     res = []
+    nonres = []
     threshold = dt.sum2D(image)/(len(image)*len(image[0]))
     for x in list:
         if (image[x[0]][x[1]]>=threshold):
             res.append(x)
-    return res
+        else :
+            nonres.append(x)
+    return res,nonres

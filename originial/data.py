@@ -38,25 +38,27 @@ def getPower(data,n):
     return np.power(data,n)
 
 def getExp(data, stdDev,mean):
-    data = int(data)
-    stdDev = int(stdDev)
-    mean = int(mean)
+    data = float(data)
+    stdDev = float(stdDev)
+    mean = float(mean)
     res = getPower((data-mean),2)
     div = 2*getPower(stdDev,2)
     return np.exp(-res/div)
 
 def getGaussianProbability(data, stdDev, mean):
     exp = getExp(data,stdDev,mean)
-    # res = getSquareRoot(2*np.pi*stdDev)
     res = stdDev*getSquareRoot(2*np.pi)
     res = 1/res
     return res* exp
 
 def getNormalRange(data):
     max = np.max(data)
+    if max == 0:
+        max = 1
+    max = 1
     res = []
     for x in data:
-        res.append(float(x)/float(max+1))
+        res.append(float(x)/float(max))
     res = np.sort(res)
     return res
 

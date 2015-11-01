@@ -46,13 +46,13 @@ def probabilityDistribution(data, stdDev, mean):
 def isCandidatePixel(data, stdDev, mean):
     global threshold
     if (probabilityDistribution(data, stdDev, mean)>threshold):
-        # print data,probabilityDistribution(data, stdDev, mean)
         return True
     return False
 
 def getCandidatePixel(list, image, stdDev, mean):
     truePixel = []
     falsePixel = []
+
     for x in range(0,len(list[0])):
         data = image[list[0][x]][list[1][x]]
         if (isCandidatePixel(data,stdDev,mean) == True):
@@ -62,3 +62,4 @@ def getCandidatePixel(list, image, stdDev, mean):
     return truePixel,falsePixel
 
 threshold = pow(10,-9)
+

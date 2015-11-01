@@ -21,12 +21,9 @@ def doClassification(classifier, list, wavelet):
     for x in list:
         data = wv.getWaveletValue(x[0],x[1],wavelet)
         data = dt.getNormalRange(data)
+        print x[0],x[1],data
         if classifier.predict(data) == 'Api':
             res.append([x[0],x[1]])
         else:
             pass
     return res
-
-classifier = getClassification()
-data = [0.382359758,	0.382359758,	0.455071496,	0.460072952,	0.576098384,	0.576098384,	0.577600367,	0.577600367	,0.785780043,	0.996120246]
-print classifier.predict(data)
