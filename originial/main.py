@@ -5,7 +5,6 @@ import pixelDetection as pd
 import classification as cls
 import wavelet as wv
 import luminance as lu
-import copy
 
 def readingVideo(videoFile):
     stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage2')
