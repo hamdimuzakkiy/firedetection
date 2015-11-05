@@ -23,7 +23,6 @@ def save(data,sheet_name):
             count+=1
     except :
         pass
-
     book.save("TA1.xls")
 
 def saveDataSet(file,content,classes):
@@ -32,10 +31,23 @@ def saveDataSet(file,content,classes):
     wb2 = copy(wb)
     data2 = wb2.get_sheet(2)
     col = 0
+
     for x in content :
         data2.write(data.nrows,col,x)
         col+=1
     data2.write(data.nrows,col,classes)
+    wb2.save(file)
+
+def saveDataSet2(file, content):
+    wb = xlrd.open_workbook(filename=file)
+    data = wb.sheet_by_index(3)
+    wb2 = copy(wb)
+    data2 = wb2.get_sheet(3)
+    col = 0
+    for x in content :
+        x = int(x)
+        data2.write(data.nrows,col,x)
+        col+=1
     wb2.save(file)
 
 def retriveListDataset(file):

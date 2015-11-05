@@ -1,5 +1,6 @@
 __author__ = 'hamdiahmadi'
 import numpy as np
+import copy
 
 #return pixel from moving - getMovingPixel
 def getMovingPixel(data):
@@ -53,14 +54,20 @@ def getGaussianProbability(data, stdDev, mean):
 
 def getNormalRange(data):
     max = np.max(data)
+    mins = np.min(data)
     if max == 0:
         max = 1
-    max = 1
+
     res = []
     for x in data:
-        res.append(float(x)/float(max))
+        res.append((float(x)-float(mins))/(float(max)-float(mins)))
     res = np.sort(res)
-    return res
+    res2 = copy.copy(res)
+    for x in range(0,len(res)-1):
+        res[x] = res[x+1]-res[x]
+    res = np.sort(res)
+
+    return res,res2
 
 def getStdev(arr):
     return np.std(arr)

@@ -61,5 +61,5 @@ def getCandidatePixel(list, image, stdDev, mean):
             falsePixel.append([list[0][x],list[1][x]])
     return truePixel,falsePixel
 
-threshold = pow(10,-9)
+threshold = pow(10,-8)
 

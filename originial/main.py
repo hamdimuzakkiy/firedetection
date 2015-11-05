@@ -32,8 +32,8 @@ def readingVideo(videoFile):
             movingPixel = mv.getMovingPixel(vd.copyFile(movingFrame))
 
             #get Candidate Pixel using Gaussian Distribution
-            # ListCandidatePixel = pd.getCandidatePixel(movingPixel, curentFrame, stdDev, mean)
-            # candidatePixel = mv.delPixel(ListCandidatePixel[1], mv.getMovingForeGroundColor(curentFrame,movingFrame))
+            ListCandidatePixel = pd.getCandidatePixel(movingPixel, curentFrame, stdDev, mean)
+            candidatePixel = mv.delPixel(ListCandidatePixel[1], mv.getMovingForeGroundColor(curentFrame,movingFrame))
 
             gaussian7 = vd.getGaussian(vd.toGray(curentFrame),7)
             gaussian13 = vd.getGaussian(vd.toGray(curentFrame),13)
@@ -56,8 +56,8 @@ def readingVideo(videoFile):
 
             # luminance = lu.getLuminancePixel(ListCandidatePixel[0], ListMap)
 
-            # luminancePixel,nonLuminance = lu.getLuminancePixel2(ListCandidatePixel[0],gaussian7)
-            # candidatePixel2 = mv.delPixel(nonLuminance, mv.getMovingForeGroundColor(candidatePixel,movingFrame))
+            luminancePixel,nonLuminance = lu.getLuminancePixel2(ListCandidatePixel[0],gaussian7)
+            candidatePixel2 = mv.delPixel(nonLuminance, mv.getMovingForeGroundColor(candidatePixel,movingFrame))
             # print '-------------------',counter,"-------------------"
             # ListFirePixel = cls.doClassification(classifier, luminancePixel, ListHighPassWavelet)
             # ListFirePixel2 = cls.doClassification(classifier, ListCandidatePixel[0], ListHighPassWavelet)
@@ -78,10 +78,10 @@ def readingVideo(videoFile):
             # if len(ListCandidatePixel[0]) !=0:
             #     print counter,len(ListFirePixel),len(luminance),len(ListCandidatePixel[0])
 
-            # vd.showVideo('original',curentFrame)
-            # vd.showVideo('Moving Detection',mv.getMovingForeGroundColor(curentFrame,movingFrame))
-            # vd.showVideo('Probability Detection',candidatePixel)
-            # vd.showVideo('Luminance',candidatePixel2)
+            vd.showVideo('original',curentFrame)
+            vd.showVideo('Moving Detection',mv.getMovingForeGroundColor(curentFrame,movingFrame))
+            vd.showVideo('Probability Detection',candidatePixel)
+            vd.showVideo('Luminance',candidatePixel2)
             vd.waitVideo(1)
         except :
             print "Video Stopped : ", str(sumFalsePixel)
@@ -96,8 +96,8 @@ def readingVideo(videoFile):
 if __name__ == '__main__':
     fileName = '../../dataset/data2/flame1.avi'
     fileName = '../../dataset/Ultimate Fail Compilation- Best Fire Fails.mp4'
-    # fileName = '../../dtaset/data1/smoke_or_flame_like_object_1.avi'
-    fileName = 0
+    fileName = '../../dataset/Gundam Wing OP 2 HD.3gp'
+    # fileName = 0
     print fileName
     videoFile = vd.openVideo(fileName)
     res = readingVideo(videoFile)

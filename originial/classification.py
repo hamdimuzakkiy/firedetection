@@ -20,10 +20,13 @@ def doClassification(classifier, list, wavelet):
     res = []
     for x in list:
         data = wv.getWaveletValue(x[0],x[1],wavelet)
-        data = dt.getNormalRange(data)
-        print x[0],x[1],data
-        if classifier.predict(data) == 'Api':
-            res.append([x[0],x[1]])
-        else:
-            pass
+        data,data2 = dt.getNormalRange(data)
+        print data2
+        # if (data[0] != 0):
+            # print data,data2
+            # res.append([x[0],x[1]])
+        # if classifier.predict(data) == 'Api':
+        #     res.append([x[0],x[1]])
+        # else:
+        #     pass
     return res
