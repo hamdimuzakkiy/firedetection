@@ -23,7 +23,7 @@ class pixelDetection(c_data):
 
     def __init__(self):
         c_data.__init__(self)
-        self.threshold = pow(10,-8)
+        self.threshold = pow(10,-9)
 
     def getCandidatePixel(self,list, image, stdDev, mean):
         truePixel = []
@@ -68,7 +68,7 @@ class intensityDetection(c_data):
         clocks.append([1,1])
         return clocks
 
-    def getCandidatePixel3(self,image,listCandidate):
+    def getCandidatePixel2(self,image,listCandidate):
         truePixel = []
         falsePixel = []
         clocks = self.clock()
@@ -76,42 +76,46 @@ class intensityDetection(c_data):
             coor_x = x[1]
             coor_y = x[0]
             flag = True
+            cnt = 0
+            sum = 0
             for y in clocks:
                 if coor_y + y[0] < 0 or coor_y + y[0] > len(image)-1 or coor_x + y[1] < 0 or coor_x + y[1] > len(image[0])-1:
-                    print "masuk sini"
                     continue
-                if (image[coor_y][coor_x] < image[coor_y+y[0]][coor_x+y[1]]):
-                    flag = False
-                    break
-            if flag:
+                cnt+=1
+                sum+=image[coor_y+y[0]][coor_x+y[1]]
+                # print image[coor_y+y[0]][coor_x+y[1]]
+                # if (image[coor_y][coor_x] < image[coor_y+y[0]][coor_x+y[1]]):
+                #     flag = False
+                #     break
+            # print "--{{}}--",image[coor_y][coor_x],"--{{}}--"
+
+            if sum < image[coor_y][coor_x]*cnt:
                 truePixel.append([coor_y,coor_x])
             else :
                 falsePixel.append([coor_y,coor_x])
         return truePixel,falsePixel
 
-    def getCandidatePixel2(self,listImage,listCandidate):
+    def getCandidatePixel3(self,listImage,listCandidate):
         truePixel = []
         falsePixel = []
         threshold = 1
         for x in listCandidate:
             arr = []
             for y in listImage:
-                valPixel = [y[x[0]][x[1]]]
-                coor = np.where(y == valPixel)
-                print valPixel,'---',len(coor[0])," Mean : ",np.mean(y)
                 arr.append(y[x[0]][x[1]])
-            print arr
-            excel.saveDataSet2("new2.xls",arr)
-            mean = np.mean(arr)
-            sum = 0
-            for y in arr :
-                print y
-                sum=sum+(pow(mean-y,2))
-            res = np.sqrt(sum/mean)
-            print "========================"
-            if res > threshold:
+
+
+            res = float(np.std(arr))
+
+            if (res > 5 and res < 20 and np.max(arr)-np.min(arr) <= 30):
+            #if (res > 5 and res < 20):
+                # print np.max(arr),np.min(arr),res
                 truePixel.append([x[0],x[1]])
             else:
                 falsePixel.append([x[0],x[1]])
+            # if res > threshold:
+            #     truePixel.append([x[0],x[1]])
+            # else:
+            #     falsePixel.append([x[0],x[1]])
 
         return truePixel,falsePixel

@@ -57,17 +57,11 @@ def getNormalRange(data):
     mins = np.min(data)
     if max == 0:
         max = 1
-
     res = []
     for x in data:
-        res.append((float(x)-float(mins))/(float(max)-float(mins)))
+        res.append((float(x)-float(mins))/(float(max)-float(mins)+1))
     res = np.sort(res)
-    res2 = copy.copy(res)
-    for x in range(0,len(res)-1):
-        res[x] = res[x+1]-res[x]
-    res = np.sort(res)
-
-    return res,res2
+    return res
 
 def getStdev(arr):
     return np.std(arr)
