@@ -9,6 +9,7 @@ def getWaveletValue(coory,coorx,wavelet):
     # coory = coory/2
     # coorx = coorx/2
     res = []
+
     for x in wavelet:
         # if (x[0][coory][coorx]<0):
         #     x[0][coory][coorx] = 0
@@ -16,9 +17,10 @@ def getWaveletValue(coory,coorx,wavelet):
         #     x[1][coory][coorx] = 0
         # if (x[2][coory][coorx]<0):
         #     x[2][coory][coorx] = 0
-        # res.extend([x[0][coory][coorx]])
-        # print coory,coorx,len(wavelet[0]),len(wavelet[0][0])
-        res.extend([np.power(x[0][coory][coorx],2)+np.power(x[1][coory][coorx],2)+np.power(x[2][coory][coorx],2)])
+        # print x[0][coory][coorx],x[1][coory][coorx],x[2][coory][coorx]
+        result = np.power(x[0][coory][coorx],2)+np.power(x[1][coory][coorx],2)+np.power(x[2][coory][coorx],2)
+        result = float('%.1f' % round(result, 2))
+        res.extend([result])
     return res
 
 

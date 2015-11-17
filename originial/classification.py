@@ -5,7 +5,7 @@ import scipy
 from sklearn import svm
 import excel
 import wavelet as wv
-import numpy
+import numpy as np
 
 def readDataSet(file):
     data,classes = excel.readDataSet(file)
@@ -18,15 +18,38 @@ def getClassification():
     return clf
 
 def doClassification(classifier, list, wavelet):
-    res = []
+    truePixel = []
+    falsePixel = []
+    flag = True
 
     for x in list:
         data = wv.getWaveletValue(x[0],x[1],wavelet)
-        print x[0],x[1],dt.getNormalRange(data)
+        cnt = 0
+        for y in range(1,len(data)):
+            if abs(data[y]-data[y-1]) < 10:
+               cnt+=1
+        if (cnt > 1):
+            flag = False
 
+        if flag == True :
+            print data
+            truePixel.append([x[0],x[1]])
+        else :
+            falsePixel.append([x[0],x[1]])
+    return truePixel,falsePixel
         # if classifier.predict(data) == 'Api':
         #     res.append([x[0],x[1]])
         # else:
         #     pass
+    # return res
+
+
+def doClassification2(classifier, list, wavelet):
+    res = []
+    for x in list:
+        data = []
+        for y in wavelet:
+            data.append(y[x[0]][x[1]][2])
+        print dt.getNormalRange(data)
 
     return res

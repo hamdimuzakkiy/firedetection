@@ -30,6 +30,7 @@ class pixelDetection(c_data):
         truePixel = []
         falsePixel = []
 
+
         for x in range(0,len(list[0])):
             data = image[list[0][x]][list[1][x]]
             res = c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2])
@@ -99,20 +100,20 @@ class intensityDetection(c_data):
             for y in listImage:
                 arr.append(y[x[0]][x[1]])
             res = float(np.std(arr))
-
-            if (res > 10 and res < 20):
-                # print np.sort(arr),res,max(arr)-min(arr),"True"
+            arr = np.sort(arr)
+            if (res > 5 and res < 40):
+                # print res
                 cnt = 0
-                for y in range(1,len(arr)) :
-
-                    if (int(arr[y])-int(arr[y-1])==0):
-                        cnt+=1
-                if cnt <= 2:
-                    truePixel.append([x[0],x[1]])
-                else :
-                    falsePixel.append([x[0],x[1]])
+                truePixel.append([x[0],x[1]])
+                continue
+                # for y in range(1,len(arr)) :
+                #     if (int(arr[y])-int(arr[y-1])==0):
+                #         cnt+=1
+                # if cnt <= 0:
+                #     truePixel.append([x[0],x[1]])
+                # else :
+                #     falsePixel.append([x[0],x[1]])
             else:
-                # print np.sort(arr),res,max(arr)-min(arr),"False"
                 falsePixel.append([x[0],x[1]])
 
         return truePixel,falsePixel
@@ -124,8 +125,7 @@ class intensityDetection(c_data):
         for x in listCandidate:
             arr = []
             for y in listImage:
-                arr.append(y[x[0]][x[1]][2])
-
-            print dt.getNormalRange(np.sort(arr)),np.std(arr)
-
+                result = float('%.1f' % round(y[x[0]][x[1]], 2))
+                arr.append(result)
+            print arr
         return truePixel,falsePixel

@@ -1,6 +1,7 @@
 __author__ = 'hamdiahmadi'
 import data as dt
 import cv2
+import copy
 
 #set learning rate
 def setLearningRate(point):
@@ -45,6 +46,30 @@ def delPixel2(image, threshold):
                 image[y][x] = 0
     return image
 
-learningRate = 0.5
+def clock():
+    clocks = []
+    clocks.append([-1,-1])
+    clocks.append([-1,0])
+    clocks.append([-1,1])
+    clocks.append([0,-1])
+    clocks.append([0,1])
+    clocks.append([1,-1])
+    clocks.append([1,0])
+    clocks.append([1,1])
+    return clocks
+
+def markPixel(list,image):
+    res = copy.copy(image)
+    clocks = clock()
+    for x in list:
+        coor_x = x[1]
+        coor_y = x[0]
+        for y in clocks:
+            if coor_y + y[0] < 0 or coor_y + y[0] > len(image)-1 or coor_x + y[1] < 0 or coor_x + y[1] > len(image[0])-1:
+                continue
+            res[coor_y][coor_x] = [255,191,0]
+    return res
+
+learningRate = 0.3
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 
