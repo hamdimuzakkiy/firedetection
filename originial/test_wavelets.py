@@ -5,11 +5,15 @@ import numpy
 import video
 import cv2
 
-img = video.toGray(video.readImage("wv/FIREGENB.jpg"))
-print(img)
-cA, (cH, cV, cD) = pywt.dwt2(img,'db1')
+baseHH = 'wv/HH'
+baseLH = 'wv/LH'
+baseHL = 'wv/HL'
 
-video.saveFrame("wv/cA443_.png",cA)
-video.saveFrame("wv/cH443_.png",cH)
-video.saveFrame("wv/cV443_.png",cV)
-video.saveFrame("wv/cD443_.png",cD)
+coor_x = 94
+coor_y = 52
+list = []
+for x in range (284,294):
+    HH = cv2.imread(baseHH+'/'+str(x)+'.png')
+    HL = cv2.imread(baseHL+'/'+str(x)+'.png')
+    LH = cv2.imread(baseLH+'/'+str(x)+'.png')
+    print HH[coor_y][coor_x],HL[coor_y][coor_x],LH[coor_y][coor_x]

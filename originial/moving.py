@@ -70,6 +70,13 @@ def markPixel(list,image):
             res[coor_y][coor_x] = [255,191,0]
     return res
 
-learningRate = 0.3
+def markPixelBnW(list,image):
+    res = copy.copy(image)
+    clocks = clock()
+    for x in list:
+        res[x[0]][x[1]]= 0
+    return res
+
+learningRate = 0.1
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 

@@ -3,7 +3,7 @@ import pywt
 import numpy as np
 
 def toWavelet(image):
-    return pywt.dwt2(image,'db1')
+    return pywt.dwt2(image,'db4')
 
 def getWaveletValue(coory,coorx,wavelet):
     # coory = coory/2

@@ -1,5 +1,9 @@
 __author__ = 'hamdiahmadi'
 import cv2
+import scipy
+from scipy import ndimage
+import matplotlib.pyplot as plt
+import numpy
 
 #open video, path : 0 = camera, string = file | return init to read video
 def openVideo(path):
@@ -45,3 +49,16 @@ def getGaussian(image, filters):
 
 def getEdge(image):
     return cv2.Canny(image,100,200)
+
+def sharpening(image):
+    blurred_image = ndimage.gaussian_filter(image,3)
+    filter_blurred_image = ndimage.gaussian_filter(blurred_image,1)
+    alpha = 30
+    sharpened = numpy.add(blurred_image , alpha * numpy.add(blurred_image, - filter_blurred_image))
+    return sharpened
+
+def upSize(image):
+    return cv2.pyrUp(image)
+
+def downSize(image):
+    return cv2.pyrDown(image)

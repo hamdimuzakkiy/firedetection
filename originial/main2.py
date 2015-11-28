@@ -7,9 +7,7 @@ import preprocessing2 as preprocessing
 import wavelet as wv
 import time
 import copy
-import numpy as np
 import cv2
-import luminance as lu
 
 def readingVideo(videoFile):
     stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage2')
@@ -20,21 +18,22 @@ def readingVideo(videoFile):
 
     pdt = preprocessing.pixelDetection()
     idt = preprocessing.intensityDetection()
+    lum = preprocessing.luminance()
     classifier = cls.getClassification()
     ListWavelet = []
     ListMap = []
-    # ListMap = lu.setData()
-    ListOriginal = lu.setData()
+    ListOriginal = []
+    ListLuminance = []
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
             currentFrame = vd.readVideo(videoFile)[1]
-            #compres image
 
+            #compres image
             while (len(currentFrame)>150):
                 if (len(currentFrame)<=300):
                     currentFrame2 = copy.copy(currentFrame)
-                currentFrame = cv2.pyrDown(currentFrame)
+                currentFrame = vd.downSize(currentFrame)
 
             # get moving pixel
             movingFrame = mv.getMovingForeGround(vd.copyFile(currentFrame))
@@ -44,46 +43,59 @@ def readingVideo(videoFile):
             ListCandidatePixel = pdt.getCandidatePixel(movingPixel, currentFrame, stdDev, mean)
             candidatePixel = mv.delPixel(ListCandidatePixel[1], mv.getMovingForeGroundColor(currentFrame,movingFrame))
 
-            #candidate pixel ( intensity threshold )
+
             gray = vd.toGray(currentFrame)
-            # gaussian = vd.getGaussian(vd.toGray(currentFrame),7)
-            gaussian13 = vd.getGaussian(gray,7)
-            # gaussian = cv2.add((gaussian7/2),(gaussian13/2))
+            gaussian13 = vd.getGaussian(gray,13)
+            gaussian7 = vd.getGaussian(gray,7)
+            gaussians = cv2.add((gaussian7/2),(gaussian13/2))
+
+            vd.showVideo("Gaussian",((gaussians)))
 
             #wavelet
-            LL,(HL,LH,HH) = wv.toWavelet(vd.toGray((currentFrame2)))
+            LL,(HL,LH,HH) = wv.toWavelet(vd.getGaussian(vd.toGray(currentFrame2),7))
+            # LL,(HL,LH,HH) = wv.toWavelet(currentFrame2[:,:,2])
+
             ListWavelet.append([LH,HL,HH])
             ListMap.append(gray)
-
+            ListOriginal.append(currentFrame)
+            ListLuminance.append(gaussians)
             counter+=1
             if (counter <= 10):
                 continue
 
             ListWavelet.pop(0)
             ListMap.pop(0)
+            ListOriginal.pop(0)
+            ListLuminance.pop(0)
+
+            # lum.luminanceRemoval(ListLuminance,ListCandidatePixel[0])
+
+
+            # > deviasi
             ListCandidatePixel1 = idt.getCandidatePixel(gaussian13,ListCandidatePixel[0])
             candidatePixel1 = mv.delPixel(ListCandidatePixel1[1], copy.copy(candidatePixel))
 
-            # vd.showVideo("Candidate 1",cv2.pyrUp(cv2.pyrUp(candidatePixel1)))
+            # vd.showVideo("Candidate 1",(cv2.pyrUp(candidatePixel1)))
 
             ListCandidatePixel2 = ListCandidatePixel1
+            #candidate pixel based on x,y pixel with 10 frame
             ListCandidatePixel3 = idt.getCandidatePixel3(ListMap,ListCandidatePixel2[0])
             candidatePixel3 = mv.delPixel(ListCandidatePixel3[1],mv.delPixel(ListCandidatePixel2[1], copy.copy(candidatePixel1)))
-            # candidatePixel3 = mv.markPixel(ListCandidatePixel3[0],currentFrame)
 
-            # vd.showVideo("Candidate 2",cv2.pyrUp(cv2.pyrUp(candidatePixel3)))
+            # vd.showVideo("Candidate Pixel 3",(vd.upSize(candidatePixel3)))
 
-            ListFirePixel = cls.doClassification(classifier, ListCandidatePixel3[0], ListWavelet)
+            ListCandidatePixel5 = idt.getCandidatePixel5(ListOriginal,ListCandidatePixel3[0],stdDev,mean)
+            candidatePixel5 = mv.delPixel(ListCandidatePixel5[1],candidatePixel3)
+
+            # vd.showVideo("Candidate Pixel 5",(vd.upSize(candidatePixel5)))
+            ListFirePixel = cls.doClassification(classifier, ListCandidatePixel5[0], ListWavelet)
             candidatePixel4 = mv.delPixel(ListFirePixel[1],candidatePixel3)
             finalPixel3 = mv.markPixel(ListFirePixel[0],currentFrame)
 
-            # vd.showVideo("Gray",((gaussian13)))
-            # vd.showVideo("Real",(currentFrame))
-            vd.showVideo("Final Candidate Black",(cv2.pyrUp(candidatePixel4)))
-            vd.showVideo("Final Candidate",cv2.pyrUp(cv2.pyrUp(finalPixel3)))
-            # vd.showVideo("Color",(candidatePixel))
-            # vd.showVideo("Moving",(movingFrame))
+            vd.showVideo("Final Candidate Black",((candidatePixel4)))
+            vd.showVideo("Final Candidate",vd.upSize(vd.upSize(finalPixel3)))
 
+            # print len(ListCandidatePixel1[0]),len(ListCandidatePixel3[0]),len(ListFirePixel[0])
 
             vd.waitVideo(1)
         except:
@@ -92,10 +104,10 @@ def readingVideo(videoFile):
 
 if __name__ == '__main__':
     fileName = '../../dataset/data2/flame1.avi'
-    fileName = '../../dataset/uji/Man on Fire Building Jump - 9 Story Drop of Doom.mp4'
-    fileName = '../../dataset/data3/IMG_7358.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
-    # fileName = '../../dataset/11969485_10156181325945434_1774756015_n.mp4'
+    # fileName = '../../dataset/uji/forest2.avi'
+    # fileName = '../../dataset/data3/IMG_7358.MOV'
+    fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
+    # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
     # fileName = 0
 
     print fileName

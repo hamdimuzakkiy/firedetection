@@ -73,4 +73,4 @@ def getSort(arr):
     return np.sort(arr)
 
 def sum2D(data):
-    return  sum(map(sum, data))
+    return sum(map(sum, data))
