@@ -104,9 +104,9 @@ def readingVideo(videoFile):
 
 if __name__ == '__main__':
     fileName = '../../dataset/data2/flame1.avi'
-    # fileName = '../../dataset/uji/forest2.avi'
+    fileName = '../../dataset/uji/forest2.avi'
     # fileName = '../../dataset/data3/IMG_7358.MOV'
-    fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
+    # fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
     # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
     # fileName = 0
 

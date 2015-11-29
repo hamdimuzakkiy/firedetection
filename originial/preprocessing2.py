@@ -4,6 +4,8 @@ import sys
 import cv2
 import excel
 import data as dt
+import copy
+
 np.set_printoptions(threshold=sys.maxint)
 
 class imageProcessing:
@@ -64,6 +66,7 @@ class c_data:
                 tmp = (float(x)-min)/(max-min)
             except:
                 tmp = 0
+            float('%.2f' % round(tmp))
             res.append(tmp)
         return res
 
@@ -73,7 +76,7 @@ class colorDetection(c_data):
         c_data.__init__(self)
 
     def getCandidatePixel(self,list, image, stdDev, mean):
-        self.threshold = pow(10,-8)
+        self.threshold = 5*pow(10,-9)
         truePixel = []
         falsePixel = []
         for x in range(0,len(list[0])):
@@ -86,7 +89,6 @@ class colorDetection(c_data):
                 falsePixel.append([list[0][x],list[1][x]])
         return truePixel,falsePixel
 
-
 class luminance(c_data,imageProcessing):
 
     def __init__(self):
@@ -96,6 +98,10 @@ class luminance(c_data,imageProcessing):
         # get max and min image , normalization image
         max7,max13 = np.max(gaussianLuminance7),np.max(gaussianLuminance13)
         min7,min13 = np.min(gaussianLuminance7),np.min(gaussianLuminance13)
+        if (max7-min7 == 0):
+            max7+=1
+        if (max13-min13 == 0):
+            max13+=1
         gaussianLuminance7-=min7
         gaussianLuminance13-=min13
         gaussianLuminance7*=(255/(max7-min7))
@@ -141,7 +147,6 @@ class luminance(c_data,imageProcessing):
         for x in listCandidate:
             coor_x = x[1]
             coor_y = x[0]
-            print image[coor_y][coor_x]
             if (avg <= image[coor_y][coor_x]):
                 truePixel.append([coor_y,coor_x])
             else :
@@ -184,30 +189,113 @@ class luminance(c_data,imageProcessing):
                 falsePixel.append([x[0],x[1]])
             list = np.sort(list)
             results = c_data.getLuminanceDeviation(self,list)
-            print results
+
             if (results>0.8):
                 truePixel.append([x[0],x[1]])
             else :
                 falsePixel.append([x[0],x[1]])
         return truePixel,falsePixel
 
-
 class intensityDetection(c_data,colorDetection):
 
     def __init__(self):
         c_data.__init__(self)
 
-    #candidate pixel based on std dev picture
-    def getCandidatePixel(self,image,listCandidate):
+    #candidate pixel based on average intensity picture
+    def getIntensityPixel(self,image,listCandidate):
         truePixel = []
         falsePixel = []
-        # threshold = np.std(image)
         threshold = np.average(image)
         for x in listCandidate:
             if image[x[0]][x[1]] > threshold:
                 truePixel.append([x[0],x[1]])
             else:
                 falsePixel.append([x[0],x[1]])
+        return truePixel,falsePixel
+
+    #candidate pixel based on average intensity moving object with range 2* extrim point
+    def getIntensityPixel3(self,image,listCandidate,range):
+        truePixel = []
+        falsePixel = []
+        if len(listCandidate) == 0:
+            return truePixel,falsePixel
+
+        minY,maxY =  min(range[0]),max(range[0])
+        minX,maxX =  min(range[1]),max(range[1])
+        const = 2
+
+        if minY - (minY/const) < 0:
+            minY = 0
+        else :
+            minY = minY - (minY/const)
+
+        if minX - (minX/const) < 0:
+            minX = 0
+        else :
+            minX = minX - (minX/const)
+
+        if maxY*const>len(image):
+            maxY = len(image)-1
+        else:
+            maxY = maxY*const
+        if maxX*const>len(image):
+            maxX = len(image)-1
+        else:
+            maxX = maxX*const
+        image2 = copy.copy(image)
+        image2 = image2[minY:maxY,minX:maxX]
+        # print minY,maxY,minX,maxX,len(image2),len(image2[0])
+        threshold = np.average(image2)
+        for x in listCandidate:
+            if image[x[0]][x[1]] > threshold:
+                truePixel.append([x[0],x[1]])
+            else:
+                falsePixel.append([x[0],x[1]])
+        return truePixel,falsePixel
+
+    def getIntensityPixel2(self,image,listCandidate):
+        truePixel = []
+        falsePixel = []
+        if len(listCandidate) == 0:
+            return truePixel,falsePixel
+        listCandidate2 = np.array(copy.copy(listCandidate))
+
+        minY,maxY =  min(listCandidate2[:,0]),max(listCandidate2[:,0])
+        minX,maxX =  min(listCandidate2[:,1]),max(listCandidate2[:,1])
+
+        if maxY*2>len(image):
+            maxY = len(image)-1
+        else:
+            maxY = maxY*2
+        if maxX*2>len(image):
+            maxX = len(image)-1
+        else:
+            maxX = maxX*2
+        image2 = copy.copy(image)
+        image2 = image2[minY:maxY,minX:maxX]
+        threshold = np.average(image2)
+        for x in listCandidate:
+            if image[x[0]][x[1]] > threshold:
+                truePixel.append([x[0],x[1]])
+            else:
+                falsePixel.append([x[0],x[1]])
+        return truePixel,falsePixel
+
+    #candidate pixel based on x,y pixel with 10 frame
+    def getDiferencePixel(self,listImage,listCandidate):
+        truePixel = []
+        falsePixel = []
+        for x in listCandidate:
+            arr = []
+            for y in listImage:
+                arr.append(y[x[0]][x[1]])
+            res = float(np.std(arr))
+
+            if (res > 5 and res < 30):
+                truePixel.append([x[0],x[1]])
+            else:
+                falsePixel.append([x[0],x[1]])
+
         return truePixel,falsePixel
 
     #candidate pixel based on neighbour color
@@ -231,32 +319,6 @@ class intensityDetection(c_data,colorDetection):
                 falsePixel.append([coor_y,coor_x])
         return truePixel,falsePixel
 
-    #candidate pixel based on x,y pixel with 10 frame
-    def getCandidatePixel3(self,listImage,listCandidate):
-        truePixel = []
-        falsePixel = []
-        for x in listCandidate:
-            arr = []
-            for y in listImage:
-                arr.append(y[x[0]][x[1]])
-            # arr = c_data.getNormalRange(self,arr)
-            res = float(np.std(arr))
-            print res, arr
-            if (res > 5 and res < 20):
-                truePixel.append([x[0],x[1]])
-                continue
-                # for y in range(1,len(arr)) :
-                #     if (int(arr[y])-int(arr[y-1])==0):
-                #         cnt+=1
-                # if cnt <= 0:
-                #     truePixel.append([x[0],x[1]])
-                # else :
-                #     falsePixel.append([x[0],x[1]])
-            else:
-                falsePixel.append([x[0],x[1]])
-
-        return truePixel,falsePixel
-
     #candidate pixel based on red chanel
     def getCandidatePixel4(self,listImage,listCandidate):
         truePixel = []
@@ -266,7 +328,6 @@ class intensityDetection(c_data,colorDetection):
             for y in listImage:
                 result = float('%.1f' % round(y[x[0]][x[1]], 2))
                 arr.append(result)
-            print arr
         return truePixel,falsePixel
 
     def getCandidatePixel5(self,ListImage,listCandidate,stdDev, mean):
@@ -299,3 +360,39 @@ class wavelet(c_data):
             for image in ListImage:
                 arr.append(image[coor_y][coor_x][2])
             print arr
+
+class growing(c_data):
+
+    def __init__(self):
+        self.threshold = 10
+
+    def doGrowing(self,images ,imageGrowing,coor_y,coor_x):
+        queue = []
+        clocks = c_data.clock(self)
+        queue.append([coor_y,coor_x])
+        while len(queue)!=0:
+            coor = queue.pop(0)
+            coor_y,coor_x = coor[0],coor[1]
+            val = images[coor_y][coor_x]
+            for y in clocks:
+                if coor_y + y[0] < 0 or coor_y + y[0] > len(images)-1 or coor_x + y[1] < 0 or coor_x + y[1] > len(images[0])-1:
+                    pass
+                elif imageGrowing[coor_y+y[0]][coor_x+y[1]] == 255:
+                    pass
+                elif abs(int(val)-int(images[coor_y+y[0]][coor_x+y[1]])) <= self.threshold:
+                    imageGrowing[coor_y+y[0]][coor_x+y[1]] = 255
+                    queue.append([coor_y+y[0],coor_x+y[1]])
+        return imageGrowing
+
+    def getGrowing(self,images,list):
+        imageGrowing = copy.copy(images)
+        imageGrowing = imageGrowing*0
+        for x in list:
+            coor_x = x[1]
+            coor_y = x[0]
+            print coor_y,coor_x,len(imageGrowing),len(imageGrowing[0])
+            if imageGrowing[coor_y][coor_x] == 255:
+                pass
+            else:
+                imageGrowing = self.doGrowing(copy.copy(images),copy.copy(imageGrowing),coor_y,coor_x)
+        return imageGrowing

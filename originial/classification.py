@@ -46,39 +46,42 @@ def doClassification(classifier, list, wavelet):
 
 
 def doClassification2(classifier, list, wavelet):
-    res = []
+    truePixel = []
+    falsePixel = []
     for x in list:
         data = []
         for y in wavelet:
-            # data.append(y[x[0]][x[1]][2])
-            # print len(y),len(y[0])
-            # print x[0],x[1]
             res = pow(y[0][x[0]][x[1]],2)+pow(y[1][x[0]][x[1]],2)+pow(y[2][x[0]][x[1]],2)
-            result = float('%.1f' % round(res, 2))
-            data.append(res)
+            result = float('%.2f' % res)
+            data.append(result)
+        data =  dt.getNormalRange2(data,wavelet[9])
+        res = np.array(data)
+        if len(np.where(res == 0)[0])<5:
+            print data
+            truePixel.append([x[0],x[1]])
+        else :
+            falsePixel.append([x[0],x[1]])
+        # print data,np.std(data)
+        # if np.std(data) > 0.1:
+        #     truePixel.append([x[0],x[1]])
+        # else :
+        #     falsePixel.append([x[0],x[1]])
+    return truePixel,falsePixel
 
-        print np.sort(dt.getNormalRange(data))
-
-    return res
-
-def doClassification3(list,counter):
-    baseLH = 'wv/LH2/'
-    baseHL = 'wv/HL2/'
-    baseHH = 'wv/HH2/'
-    wavelet = []
-
-    for x in range (counter-9,counter+1):
-
-        LH = cv2.imread(baseLH+str(x)+'.png')
-        HL = cv2.imread(baseHL+str(x)+'.png')
-        HH = cv2.imread(baseHH+str(x)+'.png')
-        wavelet.append([LH,HL,HH])
+def doClassification3(classifier, list, wavelet):
     for x in list:
-        coor_x = x[1]
-        coor_y = x[0]
         data = []
+        LH = []
+        HL = []
+        HH = []
         for y in wavelet:
-            res = pow(y[0][coor_y][coor_x][0],2)+pow(y[1][coor_y][coor_x][0],2)+pow(y[2][coor_y][coor_x][0],2)
-            data.append(res)
-        print np.sort(data)
-    return 1
+            LH.append(y[0][x[0]][x[1]])
+            HL.append(y[1][x[0]][x[1]])
+            HH.append(y[2][x[0]][x[1]])
+        LH = dt.getNormalRange(LH)
+        HL = dt.getNormalRange(HL)
+        HH = dt.getNormalRange(HH)
+        for y in range(0,len(LH)):
+            data.append(pow(LH[y],2)+pow(HL[y],2)+pow(HH[y],2))
+        print dt.getNormalRange(data),np.std(dt.getNormalRange(data))
+        return

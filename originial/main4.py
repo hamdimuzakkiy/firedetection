@@ -9,29 +9,34 @@ import preprocessing2 as preprocessing
 import wavelet as wv
 import time
 import copy
-import cv2
 import numpy
 
+user_input = [None]
+
+def get_user_input(user_input_ref):
+    user_input_ref[0] = raw_input("Give me some Information: ")
+
 def readingVideo(videoFile):
-    stdDev, mean = pd.getStdDevAndMean('../../corped/__ChoosenImage2')
+    stdDev, mean = pd.getStdDevAndMean('__ChoosenImage2')
     print "Stdev : "+str(stdDev), "Mean : "+str(mean)
     print "Video Frame : ",vd.countFrame(videoFile)
     print "Video Size : ",len(vd.readVideo(videoFile)[1]),len(vd.readVideo(videoFile)[1][0])
-    counter = 0
 
+    counter = 0
     cdt = preprocessing.colorDetection()
     idt = preprocessing.intensityDetection()
     lum = preprocessing.luminance()
+    grow = preprocessing.growing()
     wvlt = preprocessing.wavelet()
     classifier = cls.getClassification()
+    fireFrame = numpy.array([0,0,0,0,0])
     ListWavelet = []
     ListLuminance = []
-
+    AllFrame = 0
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
             currentFrame = vd.readVideo(videoFile)[1]
-            # currentFrame2 = vd.upSize(copy.copy(currentFrame))
             #compres image
             while (len(currentFrame)>150):
                 if (len(currentFrame)<=300):
@@ -43,11 +48,11 @@ def readingVideo(videoFile):
             movingPixel = mv.getMovingPixel(vd.copyFile(movingFrame))
 
             #candidate pixel ( color probability )
-            ListCandidatePixel = cdt.getCandidatePixel(movingPixel, currentFrame, stdDev, mean)
+            ColorCandidatePixel = cdt.getCandidatePixel(copy.copy(movingPixel), currentFrame, stdDev, mean)
 
             #candidate pixel ( brightness ), convert image to gray with luminance
             luminanceImageGray = lum.getLuminanceImageGray(currentFrame)
-            ListCandidatePixel = idt.getCandidatePixel(luminanceImageGray,ListCandidatePixel[0])
+            LuminanceCandidatePixel = idt.getIntensityPixel3(luminanceImageGray,copy.copy(ColorCandidatePixel[0]),copy.copy(movingPixel))
 
             # covert image to wavelet
             LL,(HL,LH,HH) = wv.toWavelet(vd.toGray(currentFrame2))
@@ -58,37 +63,61 @@ def readingVideo(videoFile):
             vd.saveFrame('temporary/HL.png',HL)
             vd.saveFrame('temporary/HH.png',HH)
 
-            LH = vd.readImage('temporary/LH.png')[:,:,2]
-            HL = vd.readImage('temporary/HL.png')[:,:,2]
-            HH = vd.readImage('temporary/HH.png')[:,:,2]
+            LH = vd.readImage('temporary/LH.png')
+            HL = vd.readImage('temporary/HL.png')
+            HH = vd.readImage('temporary/HH.png')
+
+            LH = LH[:,:,2]
+            HL = HL[:,:,2]
+            HH = HH[:,:,2]
 
             #append image
             ListLuminance.append(luminanceImage)
             ListWavelet.append([HL,LH,HH])
 
             counter+=1
-            if (counter<10):
+            if (counter<=10):
                 continue
             ListLuminance.pop(0)
             ListWavelet.pop(0)
 
-            cls.doClassification2(classifier,ListCandidatePixel[0],ListWavelet)
-            # ListCandidatePixel = idt.getCandidatePixel3(ListLuminance,ListCandidatePixel[0])
+            ListCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(LuminanceCandidatePixel[0]))
 
-            vd.showVideo("luminanceImage",vd.upSize(luminanceImage))
-            # vd.showVideo("luminanceImageFInal",vd.upSize(mv.markPixelBnW(ListCandidatePixel[0],luminanceImage)))
-            vd.showVideo('Final',vd.upSize(vd.upSize(mv.markPixel(ListCandidatePixel[0],currentFrame))))
-            # vd.showVideo('FinalLuminance',vd.upSize(vd.upSize(mv.markPixelBnW(ListCandidatePixel[0],luminanceImage))))
+            # newImage = grow.getGrowing(luminanceImage,ListCandidatePixel[0])
+            # vd.saveFrame('temporary/'+str(counter)+'.png',newImage)
+            # vd.showVideo('Luminance',vd.upSize(luminanceImage))
+            # FinalCandidatePixel = cls.doClassification2(classifier,ListCandidatePixel[0],ListWavelet)
+
+            if len(movingPixel[0])>0:
+                fireFrame[0]+=1
+            if len(ColorCandidatePixel[0])>0:
+                fireFrame[1]+=1
+            if len(LuminanceCandidatePixel[0])>0:
+                fireFrame[2]+=1
+            if len(ListCandidatePixel[0])>0:
+                fireFrame[3]+=1
+            # if len(FinalCandidatePixel[0])>0:
+            #     fireFrame[4]+=1
+            AllFrame+=1
+
+            # print len(movingPixel[0]),len(ColorCandidatePixel[0]),len(LuminanceCandidatePixel[0]),len(ListCandidatePixel[0])
+
+            fireFrameImage = vd.upSize(vd.upSize(mv.markPixelRectangle(ListCandidatePixel[0],currentFrame)))
+            vd.showVideo('Final',fireFrameImage)
+            # vd.showVideo('Final',vd.upSize(mv.markPixelRectangleBnW(ListCandidatePixel[0],luminanceImage)))
             vd.waitVideo(1)
-        except:
-            return
-    return
+        except :
+            print fireFrame,AllFrame
+            return (fireFrame)/float(AllFrame)
+    print fireFrame,AllFrame
+    return (fireFrame)/float(AllFrame)
+
 
 if __name__ == '__main__':
     fileName = '../../dataset/data2/flame1.avi'
     fileName = '../../dataset/uji/fBackYardFire.avi'
-    # fileName = '../../dataset/data3/IMG_7358.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
+    # fileName = '../../dataset/data3/IMG_7357.MOV'
+    # fileName = '../../dataset/data1/smoke_or_flame_like_object_3.avi'
     # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
     # fileName = 0
 
@@ -97,4 +126,5 @@ if __name__ == '__main__':
     start = time.time()
     res = readingVideo(videoFile)
     print time.time() - start
+    print "Acc : ",res*100,' %'
     vd.closeVideo(videoFile)

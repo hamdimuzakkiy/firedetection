@@ -2,6 +2,7 @@ __author__ = 'hamdiahmadi'
 import data as dt
 import cv2
 import copy
+import numpy as np
 
 #set learning rate
 def setLearningRate(point):
@@ -77,6 +78,37 @@ def markPixelBnW(list,image):
         res[x[0]][x[1]]= 0
     return res
 
-learningRate = 0.1
+def markPixelRectangle(list,image):
+    if len(list) == 0:
+        return image
+    list = np.array(list)
+
+    minY,maxY =  min(list[:,0]),max(list[:,0])
+    minX,maxX =  min(list[:,1]),max(list[:,1])
+
+    for y in range(minY,maxY+1):
+        image[y][minX] = [255,191,0]
+        image[y][maxX] = [255,191,0]
+    for x in range(minX,maxX+1):
+        image[minY][x] = [255,191,0]
+        image[maxY][x] = [255,191,0]
+    return image
+
+def markPixelRectangleBnW(list,image):
+    if len(list) == 0:
+        return image
+    list = np.array(list)
+
+    minY,maxY =  min(list[:,0]),max(list[:,0])
+    minX,maxX =  min(list[:,1]),max(list[:,1])
+    for y in range(minY,maxY+1):
+        image[y][minX] = 0
+        image[y][maxX] = 0
+    for x in range(minX,maxX+1):
+        image[minY][x] = 0
+        image[maxY][x] = 0
+    return image
+
+learningRate = 0.0
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 

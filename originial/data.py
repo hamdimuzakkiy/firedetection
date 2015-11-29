@@ -59,7 +59,35 @@ def getNormalRange(data):
         max = 1
     res = []
     for x in data:
-        res.append((float(x)-float(mins))/(float(max)-float(mins)+1))
+        try:
+            tmp = (float(x)-float(mins))/(float(max)-float(mins)+1)
+        except:
+            tmp = 0
+        tmp = float('%.2f' % tmp)
+        res.append(tmp)
+
+    res = np.sort(res)
+    return res
+
+def getNormalRange2(data,image):
+    max0 = pow(np.max(image[0]),2)
+    max1 = pow(np.max(image[1]),2)
+    max2 = pow(np.max(image[2]),2)
+    min0 = pow(np.min(image[0]),2)
+    min1 = pow(np.min(image[1]),2)
+    min2 = pow(np.min(image[2]),2)
+    max = max0+max1+max2
+    mins = min0+min1+min2
+    if max == 0:
+        max = 1
+    res = []
+    for x in data:
+        try:
+            tmp = (float(x)-float(mins))/(float(max)-float(mins))
+        except:
+            tmp = 0
+        tmp = float('%.2f' % tmp)
+        res.append(tmp)
     res = np.sort(res)
     return res
 
