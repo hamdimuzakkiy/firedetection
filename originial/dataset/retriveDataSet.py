@@ -9,61 +9,44 @@ import preprocessing2 as preprocessing
 import wavelet as wv
 import time
 import copy
-import numpy
+import excel
 
 user_input = [None]
 
-def readingVideo(videoFile):
-    stdDev, mean = pd.getStdDevAndMean('__ChoosenImage2')
-    print "Stdev : "+str(stdDev), "Mean : "+str(mean)
-    print "Video Frame : ",vd.countFrame(videoFile)
-    print "Video Size : ",len(vd.readVideo(videoFile)[1]),len(vd.readVideo(videoFile)[1][0])
+def get_user_input(user_input_ref):
+    user_input_ref[0] = raw_input("Give me some Information: ")
+
+def readingVideo(videoFile,classes):
+    stdDev, mean = pd.getStdDevAndMean('../__ChoosenImage2')
 
     counter = 0
     cdt = preprocessing.colorDetection()
     idt = preprocessing.intensityDetection()
     lum = preprocessing.luminance()
 
-    classifier = cls.getClassification()
-    fireFrame = numpy.array([0,0,0,0,0])
+    classifier = ''
     ListWavelet = []
     ListLuminance = []
     ListGrayImage = []
-    AllFrame = 0
 
     while(vd.isOpened(videoFile)):
         try :
-            #get curent frame
             currentFrame = vd.readVideo(videoFile)[1]
-            #compres image
             while (len(currentFrame)>150):
                 if (len(currentFrame)<=300):
                     currentFrame2 = copy.copy(currentFrame)
                 currentFrame = vd.downSize(currentFrame)
-
-            # get moving pixel
             movingFrame = mv.getMovingForeGround(vd.copyFile(currentFrame))
             movingPixel = mv.getMovingPixel(vd.copyFile(movingFrame))
-
-            #candidate pixel ( color probability )
             ColorCandidatePixel = cdt.getCandidatePixel(copy.copy(movingPixel), currentFrame, stdDev, mean)
-
-            #candidate pixel ( brightness ), convert image to gray with luminance
             luminanceImageGray = lum.getLuminanceImageGray(currentFrame)
             LuminanceCandidatePixel = idt.getIntensityPixel(luminanceImageGray,copy.copy(ColorCandidatePixel[0]),copy.copy(movingPixel))
-
-            # covert image to wavelet
             grayImage = vd.toGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
-
-            #convert image to luminance image with gaussian filter 7 and 13
             luminanceImage = lum.getLumiananceImage(currentFrame)
-
-            #append image
             ListLuminance.append(luminanceImage)
             ListWavelet.append([HL,LH,HH])
             ListGrayImage.append(copy.copy(grayImage))
-
             counter+=1
             if (counter<=10):
                 continue
@@ -72,41 +55,30 @@ def readingVideo(videoFile):
             ListGrayImage.pop(0)
 
             ListCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(LuminanceCandidatePixel[0]))
-
-            FinalCandidatePixel = cls.doClassification(classifier,ListCandidatePixel[0],ListWavelet)
-
-            if len(movingPixel[0])>0:
-                fireFrame[0]+=1
-            if len(ColorCandidatePixel[0])>0:
-                fireFrame[1]+=1
-            if len(LuminanceCandidatePixel[0])>0:
-                fireFrame[2]+=1
-            if len(ListCandidatePixel[0])>0:
-                fireFrame[3]+=1
-            if len(FinalCandidatePixel[0])>0:
-                fireFrame[4]+=1
-            AllFrame+=1
-
-            fireFrameImage = vd.upSize(vd.upSize(mv.markPixelRectangle(FinalCandidatePixel[0],currentFrame)))
+            data = cls.returnDataTraining(classifier,ListCandidatePixel[0],ListWavelet,classes)
+            fireFrameImage = vd.upSize(vd.upSize(mv.markPixelRectangle(ListCandidatePixel[0],currentFrame)))
             vd.showVideo('Final',fireFrameImage)
+            for x in data:
+                excel.saveDataSet('TA.xls',x,classes)
+
             vd.waitVideo(1)
-        except:
-            return (fireFrame)/float(AllFrame)
-    return (fireFrame)/float(AllFrame)
+        except :
+            return
+    return
 
 
 if __name__ == '__main__':
-    fileName = '../../dataset/data2/flame1.avi'
+    fileName = '../../../dataset/data2/flame1.avi'
     # fileName = '../../dataset/uji/Man on Fire Building Jump - 9 Story Drop of Doom.mp4'
-    fileName = '../../dataset/data3/IMG_7358.MOV'
+    # fileName = '../../dataset/data3/IMG_7358.MOV'
     # fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
     # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
-    # fileName = 0
+    fileName = 0
 
     print fileName
     videoFile = vd.openVideo(fileName)
     start = time.time()
-    res = readingVideo(videoFile)
+    classes = 'Bukan Api'
+    res = readingVideo(videoFile,classes)
     print time.time() - start
-    print "Acc : ",res*100,' %'
     vd.closeVideo(videoFile)

@@ -23,8 +23,6 @@ def getWaveletValue(coory,coorx,wavelet):
         res.extend([result])
     return res
 
-
-
 def setData():
     res = []
     for x in range(0,10):
