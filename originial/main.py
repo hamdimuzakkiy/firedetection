@@ -23,6 +23,7 @@ def readingVideo(videoFile):
     cdt = preprocessing.colorDetection()
     idt = preprocessing.intensityDetection()
     lum = preprocessing.luminance()
+    grw = preprocessing.growing()
 
     classifier = cls.getClassification()
     fireFrame = numpy.array([0,0,0,0,0])
@@ -46,18 +47,22 @@ def readingVideo(videoFile):
             movingPixel = mv.getMovingPixel(vd.copyFile(movingFrame))
 
             #candidate pixel ( color probability )
-            ColorCandidatePixel = cdt.getCandidatePixel(copy.copy(movingPixel), currentFrame, stdDev, mean)
+            ColorCandidatePixel = cdt.getCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), stdDev, mean)
 
             #candidate pixel ( brightness ), convert image to gray with luminance
-            luminanceImageGray = lum.getLuminanceImageGray(currentFrame)
-            LuminanceCandidatePixel = idt.getIntensityPixel(luminanceImageGray,copy.copy(ColorCandidatePixel[0]),copy.copy(movingPixel))
+            luminanceImageGray = lum.getLuminanceImageGray(copy.copy(currentFrame))
+            LuminanceCandidatePixel = idt.getIntensityPixel(copy.copy(luminanceImageGray),copy.copy(ColorCandidatePixel[0]),copy.copy(movingPixel))
+
+            #convert image to luminance image with gaussian filter 7 and 13
+            luminanceImage = lum.getLumiananceImage(currentFrame)
 
             # covert image to wavelet
             grayImage = vd.toGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
 
-            #convert image to luminance image with gaussian filter 7 and 13
-            luminanceImage = lum.getLumiananceImage(currentFrame)
+            ListCandidatePixel = grw.getRegion(LuminanceCandidatePixel[0],copy.copy(currentFrame),stdDev, mean,counter)
+
+            # vd.showVideo("grow",growingImage)
 
             #append image
             ListLuminance.append(luminanceImage)
@@ -71,9 +76,11 @@ def readingVideo(videoFile):
             ListWavelet.pop(0)
             ListGrayImage.pop(0)
 
-            ListCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(LuminanceCandidatePixel[0]))
+            # ListCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(LuminanceCandidatePixel[0]))
+            # ListCandidatePixel = copy.copy(LuminanceCandidatePixel)
 
-            FinalCandidatePixel = cls.doClassification(classifier,ListCandidatePixel[0],ListWavelet)
+            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(ListCandidatePixel[0]),ListWavelet)
+            # cls.doClassification(classifier,copy.copy(ListCandidatePixel[0]),ListWavelet)
 
             if len(movingPixel[0])>0:
                 fireFrame[0]+=1
@@ -97,16 +104,16 @@ def readingVideo(videoFile):
 
 if __name__ == '__main__':
     fileName = '../../dataset/data2/flame1.avi'
-    # fileName = '../../dataset/uji/Man on Fire Building Jump - 9 Story Drop of Doom.mp4'
-    fileName = '../../dataset/data3/IMG_7358.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
+    fileName = '../../dataset/uji/forest4.avi'
+    # fileName = '../../dataset/data3/IMG_7358.MOV'
+    # fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
     # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
-    # fileName = 0
+    fileName = 0
 
     print fileName
     videoFile = vd.openVideo(fileName)
     start = time.time()
     res = readingVideo(videoFile)
-    print time.time() - start
+    print "Time : ",time.time() - start
     print "Acc : ",res*100,' %'
     vd.closeVideo(videoFile)

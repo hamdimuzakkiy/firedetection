@@ -11,13 +11,6 @@ def getWaveletValue(coory,coorx,wavelet):
     res = []
 
     for x in wavelet:
-        # if (x[0][coory][coorx]<0):
-        #     x[0][coory][coorx] = 0
-        # if (x[1][coory][coorx]<0):
-        #     x[1][coory][coorx] = 0
-        # if (x[2][coory][coorx]<0):
-        #     x[2][coory][coorx] = 0
-        # print x[0][coory][coorx],x[1][coory][coorx],x[2][coory][coorx]
         result = np.power(x[0][coory][coorx],2)+np.power(x[1][coory][coorx],2)+np.power(x[2][coory][coorx],2)
         result = float('%.1f' % round(result, 2))
         res.extend([result])

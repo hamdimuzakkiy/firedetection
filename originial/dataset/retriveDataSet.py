@@ -62,23 +62,24 @@ def readingVideo(videoFile,classes):
                 excel.saveDataSet('TA.xls',x,classes)
 
             vd.waitVideo(1)
-        except :
+        except ValueError:
+            print ValueError
             return
     return
 
 
 if __name__ == '__main__':
     fileName = '../../../dataset/data2/flame1.avi'
-    # fileName = '../../dataset/uji/Man on Fire Building Jump - 9 Story Drop of Doom.mp4'
+    # fileName = '../../../dataset/uji/Red Velvet - Dumb Dumb Dance Compilation [Mirrored].mp4'
     # fileName = '../../dataset/data3/IMG_7358.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
-    # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
-    fileName = 0
+    fileName = '../../../dataset/data1/smoke_or_flame_like_object_1.avi'
+    # fileName = '../../../dataset/Red Velvet - Dumb Dumb Dance Compilation [Mirrored].mp4'
+    # fileName = 0
 
     print fileName
     videoFile = vd.openVideo(fileName)
     start = time.time()
-    classes = 'Bukan Api'
+    classes =  'Bukan Api'
     res = readingVideo(videoFile,classes)
     print time.time() - start
     vd.closeVideo(videoFile)

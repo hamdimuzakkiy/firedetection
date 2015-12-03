@@ -40,6 +40,7 @@ class c_data:
         div = 2*pow(stdDev,2)
         exp = np.exp(-res/div)
         res = stdDev*np.sqrt(2*np.pi)
+        # res = stdDev*(2*np.pi)
         res = 1/res
         return res* exp
 
@@ -74,8 +75,11 @@ class colorDetection(c_data):
     def __init__(self):
         c_data.__init__(self)
 
+    def getThreshold(self):
+        return pow(10,-8)
+
     def getCandidatePixel(self,list, image, stdDev, mean):
-        self.threshold = 5*pow(10,-9)
+        self.threshold = self.getThreshold()
         truePixel = []
         falsePixel = []
         for x in range(0,len(list[0])):
@@ -104,26 +108,104 @@ class luminance(c_data,imageProcessing):
         gaussianLuminance13-=min13
         gaussianLuminance7*=(255/(max7-min7))
         gaussianLuminance13*=(255/(max13-min13))
+
         gaussians = cv2.add((gaussianLuminance7),(gaussianLuminance13))
-        # gaussians = cv2.GaussianBlur((gaussians),(5,5),0)
+        # gaussians = cv2.GaussianBlur((cv2.pyrUp(gaussians)),(5,5),0)
         return gaussians
 
     def getLuminanceImageGray(self,image):
         grayLuminance = imageProcessing.toGray(self,image)
-        gaussianLuminance13 = grayLuminance
-        gaussianLuminance7 = grayLuminance
+        gaussianLuminance13 = copy.copy(grayLuminance)
+        gaussianLuminance7 = copy.copy(grayLuminance)
         return self.toLuminance(gaussianLuminance7,gaussianLuminance13)
 
     def getLumiananceImage(self,image):
         grayLuminance = imageProcessing.toGray(self,image)
-        gaussianLuminance13 = imageProcessing.gaussianFilter(self,grayLuminance,13)
-        gaussianLuminance7 = imageProcessing.gaussianFilter(self,grayLuminance,7)
+
+        gaussianLuminance13 = imageProcessing.gaussianFilter(self,copy.copy(grayLuminance),13)
+        gaussianLuminance7 = imageProcessing.gaussianFilter(self,copy.copy(grayLuminance),7)
+
         return self.toLuminance(gaussianLuminance7,gaussianLuminance13)
 
 class intensityDetection(c_data):
 
     def __init__(self):
         c_data.__init__(self)
+
+    def getRangeFire(self,image,listCandidate,range,constanta):
+        if len(listCandidate) == 0:
+            return False,False,False,False
+
+        listCandidates = np.array(listCandidate)
+
+        minY,maxY =  min(listCandidates[:,0]),max(listCandidates[:,0])
+        minX,maxX =  min(listCandidates[:,1]),max(listCandidates[:,1])
+
+        constanta = 2
+        constanta-=1
+        par1 = maxX - minX
+        par2 = maxY - minY
+
+        maxRange = min(par1,par2)
+        lenY = maxRange
+        lenX = maxRange
+
+        if minY - int(lenY*constanta) < 0:
+            minY = 0
+        else :
+            minY = minY - int(lenY*constanta)
+
+        if minX - int(lenX*constanta) < 0:
+            minX = 0
+        else :
+            minX = minX - int(lenX*constanta)
+
+        if int(maxY+lenY*constanta)>=len(image):
+            maxY = int(len(image)-1)
+        else:
+            maxY = int(maxY+lenY*constanta)
+        if int(maxX+lenX*constanta)>=len(image[0]):
+            maxX = int(len(image)-1)
+        else:
+            maxX = int(maxX+lenX*constanta)
+
+        return minY,minX,maxY,maxX
+
+    def getRange(self,image,listCandidate,range,constanta):
+        if len(listCandidate) == 0:
+            return False,False,False,False
+
+        minY,maxY =  min(range[0]),max(range[0])
+        minX,maxX =  min(range[1]),max(range[1])
+
+        constanta-=1
+        par1 = maxX - minX
+        par2 = maxY - minY
+
+        maxRange = min(par1,par2)
+        lenY = maxRange
+        lenX = maxRange
+
+        if minY - int(lenY*constanta) < 0:
+            minY = 0
+        else :
+            minY = minY - int(lenY*constanta)
+
+        if minX - int(lenX*constanta) < 0:
+            minX = 0
+        else :
+            minX = minX - int(lenX*constanta)
+
+        if int(maxY+lenY*constanta)>=len(image):
+            maxY = int(len(image)-1)
+        else:
+            maxY = int(maxY+lenY*constanta)
+        if int(maxX+lenX*constanta)>=len(image[0]):
+            maxX = int(len(image[0])-1)
+        else:
+            maxX = int(maxX+lenX*constanta)
+
+        return minY,minX,maxY,maxX
 
     #candidate pixel based on average intensity moving object with range 2* extrim point
     def getIntensityPixel(self,image,listCandidate,range):
@@ -132,31 +214,33 @@ class intensityDetection(c_data):
         if len(listCandidate) == 0:
             return truePixel,falsePixel
 
-        minY,maxY =  min(range[0]),max(range[0])
-        minX,maxX =  min(range[1]),max(range[1])
-        const = 2
+        constanta = 1.5
+        minY,minX,maxY,maxX = self.getRange(copy.copy(image),copy.copy(listCandidate),copy.copy(range),constanta)
 
-        if minY - (minY/const) < 0:
-            minY = 0
-        else :
-            minY = minY - (minY/const)
+        if maxX == minX:
+            maxX+=1
+        if maxY == minY:
+            maxY+=1
 
-        if minX - (minX/const) < 0:
-            minX = 0
-        else :
-            minX = minX - (minX/const)
-
-        if maxY*const>len(image):
-            maxY = len(image)-1
-        else:
-            maxY = maxY*const
-        if maxX*const>len(image):
-            maxX = len(image)-1
-        else:
-            maxX = maxX*const
         image2 = copy.copy(image)
         image2 = image2[minY:maxY,minX:maxX]
-        threshold = np.average(image2)
+
+        constanta = 1
+        minY,minX,maxY,maxX = self.getRange(copy.copy(image),copy.copy(listCandidate),copy.copy(range),constanta)
+
+        if maxX == minX:
+            maxX+=1
+        if maxY == minY:
+            maxY+=1
+
+        image3 = copy.copy(image)
+        image3 = image3[minY:maxY,minX:maxX]
+
+        sum2 = np.sum(image2)
+        sum3 = np.sum(image3)
+
+        threshold = (sum2-sum3)/((len(image2)*len(image2[0]))-(len(image3)*len(image3[0]))+1)
+
         for x in listCandidate:
             if image[x[0]][x[1]] > threshold:
                 truePixel.append([x[0],x[1]])
@@ -173,10 +257,63 @@ class intensityDetection(c_data):
             for y in listImage:
                 arr.append(y[x[0]][x[1]])
             res = float(np.std(arr))
-
             if (res > 5 and res < 30):
                 truePixel.append([x[0],x[1]])
             else:
                 falsePixel.append([x[0],x[1]])
 
+        return truePixel,falsePixel
+
+class growing(c_data,imageProcessing,colorDetection):
+
+    def __init__(self):
+        pass
+
+    def doFloodFill(self, image,resImg ,is_visit, stack, regs, stdDev, mean, originalImage):
+        res = []
+        image = np.int_(image)
+        self.threshold = colorDetection.getThreshold(self)
+        clocks = c_data.clock(self)
+        while len(stack) != 0:
+            coory,coorx = stack[0]
+            stack.pop(0)
+            resImg[coory][coorx] = 255
+            res.append(image[coory][coorx])
+            data = originalImage[coory][coorx]
+            for x in clocks:
+                if coory+x[0] < 0 or coory+x[0] == len(image) or coorx+x[1] < 0 or coorx+x[1] == len(image[0]) or is_visit[coory+x[0]][coorx+x[1]] != 0:
+                    continue
+                elif abs(int(image[coory][coorx])-int(image[coory+x[0]][coorx+x[1]])) < 60 and self.threshold < c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2]):
+                    is_visit[coory+x[0]][coorx+x[1]] = regs
+                    stack.append([coory+x[0],coorx+x[1]])
+        return resImg,is_visit,res
+
+    def getRegion(self,list,images,stdDev, mean,counter):
+        truePixel = []
+        falsePixel = []
+        grayImage = imageProcessing.toGray(self,images)
+        cv2.imwrite("temporary/"+str(counter)+'.png',grayImage)
+        is_visit = grayImage*0
+        resImg = copy.copy(grayImage)
+        regs = 0
+        is_fire = dict()
+        for x in list:
+            coor_y = x[0]
+            coor_x = x[1]
+            if is_visit[coor_y][coor_x] == 0:
+                stack = []
+                regs+=1
+                stack.append([coor_y,coor_x])
+                resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,regs,stdDev, mean, images)
+                if np.std(res) > 20:
+                    is_fire[regs] = True
+                    truePixel.append([coor_y,coor_x])
+                else :
+                    is_fire[regs] = False
+                    falsePixel.append([coor_y,coor_x])
+            else:
+                if is_fire[is_visit[coor_y][coor_x]] == True:
+                    truePixel.append([coor_y,coor_x])
+                else :
+                    falsePixel.append([coor_y,coor_x])
         return truePixel,falsePixel

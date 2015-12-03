@@ -109,6 +109,6 @@ def markPixelRectangleBnW(list,image):
         image[maxY][x] = 0
     return image
 
-learningRate = 0.1
+learningRate = 0.0
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 
