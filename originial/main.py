@@ -72,6 +72,8 @@ def readingVideo(videoFile):
             counter+=1
             if (counter<=10):
                 continue
+            elif counter >900:
+                break
             ListLuminance.pop(0)
             ListWavelet.pop(0)
             ListGrayImage.pop(0)

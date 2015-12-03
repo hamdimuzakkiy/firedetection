@@ -292,7 +292,6 @@ class growing(c_data,imageProcessing,colorDetection):
         truePixel = []
         falsePixel = []
         grayImage = imageProcessing.toGray(self,images)
-        cv2.imwrite("temporary/"+str(counter)+'.png',grayImage)
         is_visit = grayImage*0
         resImg = copy.copy(grayImage)
         regs = 0
@@ -305,7 +304,7 @@ class growing(c_data,imageProcessing,colorDetection):
                 regs+=1
                 stack.append([coor_y,coor_x])
                 resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,regs,stdDev, mean, images)
-                if np.std(res) > 20:
+                if np.std(res) > 25:
                     is_fire[regs] = True
                     truePixel.append([coor_y,coor_x])
                 else :
