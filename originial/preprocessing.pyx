@@ -39,8 +39,8 @@ class c_data:
         res = pow((data-mean),2)
         div = 2*pow(stdDev,2)
         exp = np.exp(-res/div)
-        # res = stdDev*np.sqrt(2*np.pi)
-        res = stdDev*(2*np.pi)
+        res = stdDev*np.sqrt(2*np.pi)
+        # res = stdDev*(2*np.pi)
         res = 1/res
         return res* exp
 
@@ -75,16 +75,22 @@ class colorDetection(c_data):
     def __init__(self):
         c_data.__init__(self)
 
+    def getThreshold(self):
+        return pow(10,-8)
+
     def getCandidatePixel(self,list, image, stdDev, mean):
-        self.threshold = pow(10,-9)
+        self.threshold = self.getThreshold()
         truePixel = []
         falsePixel = []
         for x in range(0,len(list[0])):
             data = image[list[0][x]][list[1][x]]
-            res = c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2])
-            if (res>self.threshold):
-                truePixel.append([list[0][x],list[1][x]])
-            else:
+            if data[2] >= data[1] and data[1] >= data[0]:
+                res = c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2])
+                if (res>self.threshold):
+                    truePixel.append([list[0][x],list[1][x]])
+                else:
+                    falsePixel.append([list[0][x],list[1][x]])
+            else :
                 falsePixel.append([list[0][x],list[1][x]])
         return truePixel,falsePixel
 
@@ -259,4 +265,57 @@ class intensityDetection(c_data):
             else:
                 falsePixel.append([x[0],x[1]])
 
+        return truePixel,falsePixel
+
+class growing(c_data,imageProcessing,colorDetection):
+
+    def __init__(self):
+        pass
+
+    def doFloodFill(self, image,resImg ,is_visit, stack, regs, stdDev, mean, originalImage):
+        res = []
+        image = np.int_(image)
+        self.threshold = colorDetection.getThreshold(self)
+        clocks = c_data.clock(self)
+        while len(stack) != 0:
+            coory,coorx = stack[0]
+            stack.pop(0)
+            # resImg[coory][coorx] = 255
+            res.append(image[coory][coorx])
+            data = originalImage[coory][coorx]
+            for x in clocks:
+                if is_visit[coory+x[0]][coorx+x[1]] != 0 or coory+x[0] < 0 or coory+x[0] == len(image) or coorx+x[1] < 0 or coorx+x[1] == len(image[0]):
+                    continue
+                elif data[2] > data[1] and data[1] > data[0] and (int(image[coory][coorx])-int(image[coory+x[0]][coorx+x[1]])) < 50 and self.threshold < c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2]):
+                    is_visit[coory+x[0]][coorx+x[1]] = regs
+                    stack.append([coory+x[0],coorx+x[1]])
+        return resImg,is_visit,res
+
+    def getRegion(self,list,images,stdDev, mean,counter):
+        truePixel = []
+        falsePixel = []
+        grayImage = imageProcessing.toGray(self,images)
+        is_visit = grayImage*0
+        resImg = copy.copy(grayImage)
+        regs = 0
+        is_fire = dict()
+        for x in list:
+            coor_y = x[0]
+            coor_x = x[1]
+            if is_visit[coor_y][coor_x] == 0:
+                stack = []
+                regs+=1
+                stack.append([coor_y,coor_x])
+                resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,regs,stdDev, mean, images)
+                if np.std(res) > 20:
+                    is_fire[regs] = True
+                    truePixel.append([coor_y,coor_x])
+                else :
+                    is_fire[regs] = False
+                    falsePixel.append([coor_y,coor_x])
+            else:
+                if is_fire[is_visit[coor_y][coor_x]] == True:
+                    truePixel.append([coor_y,coor_x])
+                else :
+                    falsePixel.append([coor_y,coor_x])
         return truePixel,falsePixel

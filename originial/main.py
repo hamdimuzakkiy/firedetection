@@ -60,9 +60,7 @@ def readingVideo(videoFile):
             grayImage = vd.toGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
 
-            ListCandidatePixel = grw.getRegion(LuminanceCandidatePixel[0],copy.copy(currentFrame),stdDev, mean,counter)
-
-            # vd.showVideo("grow",growingImage)
+            ListGrowPixel = grw.getRegion(LuminanceCandidatePixel[0],copy.copy(currentFrame),stdDev, mean,counter)
 
             #append image
             ListLuminance.append(luminanceImage)
@@ -72,16 +70,14 @@ def readingVideo(videoFile):
             counter+=1
             if (counter<=10):
                 continue
-            elif counter >900:
-                break
+
             ListLuminance.pop(0)
             ListWavelet.pop(0)
             ListGrayImage.pop(0)
 
             # ListCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(LuminanceCandidatePixel[0]))
             # ListCandidatePixel = copy.copy(LuminanceCandidatePixel)
-
-            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(ListCandidatePixel[0]),ListWavelet)
+            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(ListGrowPixel[0]),ListWavelet)
             # cls.doClassification(classifier,copy.copy(ListCandidatePixel[0]),ListWavelet)
 
             if len(movingPixel[0])>0:
@@ -90,7 +86,7 @@ def readingVideo(videoFile):
                 fireFrame[1]+=1
             if len(LuminanceCandidatePixel[0])>0:
                 fireFrame[2]+=1
-            if len(ListCandidatePixel[0])>0:
+            if len(ListGrowPixel[0])>0:
                 fireFrame[3]+=1
             if len(FinalCandidatePixel[0])>0:
                 fireFrame[4]+=1
@@ -105,12 +101,12 @@ def readingVideo(videoFile):
 
 
 if __name__ == '__main__':
-    fileName = '../../dataset/data2/flame1.avi'
-    fileName = '../../dataset/uji/forest4.avi'
-    # fileName = '../../dataset/data3/IMG_7358.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
+    fileName = '../../dataset/data2/flame3.avi'
+    fileName = '../../dataset/uji/TunnelAccident3.avi'
+    # fileName = '../../dataset/data3/IMG_7357.MOV'
+    # fileName = '../../dataset/data1/smoke_or_flame_like_object_3.avi'
     # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
-    fileName = 0
+    # fileName = 0
 
     print fileName
     videoFile = vd.openVideo(fileName)

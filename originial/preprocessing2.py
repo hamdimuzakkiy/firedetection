@@ -84,10 +84,13 @@ class colorDetection(c_data):
         falsePixel = []
         for x in range(0,len(list[0])):
             data = image[list[0][x]][list[1][x]]
-            res = c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2])
-            if (res>self.threshold):
-                truePixel.append([list[0][x],list[1][x]])
-            else:
+            if data[2] >= data[1] and data[1] >= data[0]:
+                res = c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2])
+                if (res>self.threshold):
+                    truePixel.append([list[0][x],list[1][x]])
+                else:
+                    falsePixel.append([list[0][x],list[1][x]])
+            else :
                 falsePixel.append([list[0][x],list[1][x]])
         return truePixel,falsePixel
 
@@ -277,13 +280,13 @@ class growing(c_data,imageProcessing,colorDetection):
         while len(stack) != 0:
             coory,coorx = stack[0]
             stack.pop(0)
-            resImg[coory][coorx] = 255
+            # resImg[coory][coorx] = 255
             res.append(image[coory][coorx])
             data = originalImage[coory][coorx]
             for x in clocks:
-                if coory+x[0] < 0 or coory+x[0] == len(image) or coorx+x[1] < 0 or coorx+x[1] == len(image[0]) or is_visit[coory+x[0]][coorx+x[1]] != 0:
+                if  coory+x[0] < 0 or coory+x[0] == len(image) or coorx+x[1] < 0 or coorx+x[1] == len(image[0]) or is_visit[coory+x[0]][coorx+x[1]] != 0:
                     continue
-                elif abs(int(image[coory][coorx])-int(image[coory+x[0]][coorx+x[1]])) < 60 and self.threshold < c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2]):
+                elif data[2] > data[1] and data[1] > data[0] and (int(image[coory][coorx])-int(image[coory+x[0]][coorx+x[1]])) < 50 and self.threshold < c_data.getGaussianProbability(self,data[0], stdDev[0], mean[0])* c_data.getGaussianProbability(self,data[1], stdDev[1], mean[1])* c_data.getGaussianProbability(self,data[2], stdDev[2], mean[2]):
                     is_visit[coory+x[0]][coorx+x[1]] = regs
                     stack.append([coory+x[0],coorx+x[1]])
         return resImg,is_visit,res
@@ -304,7 +307,7 @@ class growing(c_data,imageProcessing,colorDetection):
                 regs+=1
                 stack.append([coor_y,coor_x])
                 resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,regs,stdDev, mean, images)
-                if np.std(res) > 25:
+                if np.std(res) > 20:
                     is_fire[regs] = True
                     truePixel.append([coor_y,coor_x])
                 else :

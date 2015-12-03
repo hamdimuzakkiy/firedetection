@@ -31,7 +31,6 @@ def doClassification(classifier, list, wavelet):
         listMin.append(np.min(lists))
     for x in list:
         data = []
-        data2 = []
         cnt= 0
         for y in wavelet:
             res = pow(y[0][x[0]][x[1]],2)+pow(y[1][x[0]][x[1]],2)+pow(y[2][x[0]][x[1]],2)
@@ -39,10 +38,12 @@ def doClassification(classifier, list, wavelet):
             res = float('%.2f' % res)
             cnt+=1
             data.append(res)
-
-        classes = classifier.predict(np.sort(data))
+        data = np.sort(data)
+        data = np.add(data,-data[0])
+        classes = classifier.predict(data)
         # print np.sort(data),classes
         if classes == 'Api':
+            print np.sort(data)
             truePixel.append([x[0],x[1]])
         else :
             falsePixel.append([x[0],x[1]])
@@ -72,8 +73,8 @@ def returnDataTraining(lassifier, list, wavelet,classes):
         data = np.sort(data)
         # print np.where(data==0),data
         result.append(data)
-        # if classes == 'Api':
-        #     result.append(data)
-        # else:
-        #     result.append(data)
+        if classes == 'Api':
+            result.append(data)
+        else:
+            result.append(data)
     return result
