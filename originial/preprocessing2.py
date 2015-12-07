@@ -40,7 +40,6 @@ class c_data:
         div = 2*pow(stdDev,2)
         exp = np.exp(-res/div)
         res = stdDev*np.sqrt(2*np.pi)
-        # res = stdDev*(2*np.pi)
         res = 1/res
         return res* exp
 
@@ -124,7 +123,6 @@ class luminance(c_data,imageProcessing):
 
     def getLumiananceImage(self,image):
         grayLuminance = imageProcessing.toGray(self,image)
-
         gaussianLuminance13 = imageProcessing.gaussianFilter(self,copy.copy(grayLuminance),13)
         gaussianLuminance7 = imageProcessing.gaussianFilter(self,copy.copy(grayLuminance),7)
 
@@ -260,7 +258,7 @@ class intensityDetection(c_data):
             for y in listImage:
                 arr.append(y[x[0]][x[1]])
             res = float(np.std(arr))
-            if (res > 5 and res < 30):
+            if (res > 2 and res < 40):
                 truePixel.append([x[0],x[1]])
             else:
                 falsePixel.append([x[0],x[1]])
@@ -280,7 +278,7 @@ class growing(c_data,imageProcessing,colorDetection):
         while len(stack) != 0:
             coory,coorx = stack[0]
             stack.pop(0)
-            # resImg[coory][coorx] = 255
+            resImg[coory][coorx] = 255
             res.append(image[coory][coorx])
             data = originalImage[coory][coorx]
             for x in clocks:
@@ -308,6 +306,7 @@ class growing(c_data,imageProcessing,colorDetection):
                 stack.append([coor_y,coor_x])
                 resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,regs,stdDev, mean, images)
                 if np.std(res) > 20:
+                    print res,np.std(res)
                     is_fire[regs] = True
                     truePixel.append([coor_y,coor_x])
                 else :

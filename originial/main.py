@@ -26,7 +26,7 @@ def readingVideo(videoFile):
     grw = preprocessing.growing()
 
     classifier = cls.getClassification()
-    fireFrame = numpy.array([0,0,0,0,0])
+    fireFrame = numpy.array([0,0,0,0,0,0])
     ListWavelet = []
     ListLuminance = []
     ListGrayImage = []
@@ -53,6 +53,8 @@ def readingVideo(videoFile):
             luminanceImageGray = lum.getLuminanceImageGray(copy.copy(currentFrame))
             LuminanceCandidatePixel = idt.getIntensityPixel(copy.copy(luminanceImageGray),copy.copy(ColorCandidatePixel[0]),copy.copy(movingPixel))
 
+            vd.showVideo("luminanceGray",luminanceImageGray)
+
             #convert image to luminance image with gaussian filter 7 and 13
             luminanceImage = lum.getLumiananceImage(currentFrame)
 
@@ -75,9 +77,10 @@ def readingVideo(videoFile):
             ListWavelet.pop(0)
             ListGrayImage.pop(0)
 
-            # ListCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(LuminanceCandidatePixel[0]))
-            # ListCandidatePixel = copy.copy(LuminanceCandidatePixel)
-            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(ListGrowPixel[0]),ListWavelet)
+            # ListDiferrentPixel = idt.getDiferencePixel(ListLuminance,copy.copy(ListGrowPixel[0]))
+            ListDiferrentPixel = copy.copy(ListGrowPixel)
+
+            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(ListDiferrentPixel[0]),ListWavelet)
             # cls.doClassification(classifier,copy.copy(ListCandidatePixel[0]),ListWavelet)
 
             if len(movingPixel[0])>0:
@@ -88,24 +91,27 @@ def readingVideo(videoFile):
                 fireFrame[2]+=1
             if len(ListGrowPixel[0])>0:
                 fireFrame[3]+=1
-            if len(FinalCandidatePixel[0])>0:
+            if len(ListDiferrentPixel[0])>0:
                 fireFrame[4]+=1
+            if len(FinalCandidatePixel[0])>0:
+                fireFrame[5]+=1
             AllFrame+=1
 
             fireFrameImage = vd.upSize(vd.upSize(mv.markPixelRectangle(FinalCandidatePixel[0],currentFrame)))
             vd.showVideo('Final',fireFrameImage)
             vd.waitVideo(1)
-        except:
+
+        except :
             return (fireFrame)/float(AllFrame)
     return (fireFrame)/float(AllFrame)
 
 
 if __name__ == '__main__':
-    fileName = '../../dataset/data2/flame3.avi'
-    fileName = '../../dataset/uji/TunnelAccident3.avi'
+    fileName = '../../dataset/data2/flame1.avi'
+    # fileName = '../../dataset/uji/TunnelAccident3.avi'
     # fileName = '../../dataset/data3/IMG_7357.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_3.avi'
-    # fileName = '../../dataset/Automatic Fire detection using CCD Camera.mp4'
+    # fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
+    # fileName = '../../dataset/CCTV Local Tavern Fight Tzaneen.mp4'
     # fileName = 0
 
     print fileName

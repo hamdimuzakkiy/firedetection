@@ -41,14 +41,10 @@ def doClassification(classifier, list, wavelet):
         data = np.sort(data)
         data = np.add(data,-data[0])
         classes = classifier.predict(data)
-        # print np.sort(data),classes
         if classes == 'Api':
-            print np.sort(data)
             truePixel.append([x[0],x[1]])
         else :
             falsePixel.append([x[0],x[1]])
-        # print np.sort(data),np.average(data),np.std(data)
-    # print "--------------"
     return truePixel,falsePixel
 
 def returnDataTraining(lassifier, list, wavelet,classes):
