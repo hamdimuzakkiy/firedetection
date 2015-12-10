@@ -4,7 +4,6 @@ import cv2
 import copy
 import numpy as np
 
-
 #set learning rate
 def setLearningRate(point):
     global learningRate

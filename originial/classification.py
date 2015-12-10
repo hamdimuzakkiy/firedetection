@@ -1,12 +1,10 @@
 __author__ = 'hamdiahmadi'
 
-import data as dt
 import scipy
 from sklearn import svm
 import excel
 import numpy as np
 import copy
-import time
 
 def readDataSet(file):
     data,classes = excel.readDataSet(file)
@@ -67,7 +65,6 @@ def returnDataTraining(lassifier, list, wavelet,classes):
                 cnt+=1
                 data.append(res)
         data = np.sort(data)
-        # print np.where(data==0),data
         result.append(data)
         if classes == 'Api':
             result.append(data)
