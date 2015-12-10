@@ -5,13 +5,12 @@ import video as vd
 import moving as mv
 import pixelDetection as pd
 import classification as cls
-import preprocessing2 as preprocessing
+import preprocessings as preprocessing
+# import preprocessing as preprocessing
 import wavelet as wv
 import time
 import copy
 import numpy
-
-user_input = [None]
 
 def readingVideo(videoFile):
     stdDev, mean = pd.getStdDevAndMean('__ChoosenImage2')
@@ -26,12 +25,14 @@ def readingVideo(videoFile):
     grw = preprocessing.growing()
 
     classifier = cls.getClassification()
-    fireFrame = numpy.array([0,0,0,0,0,0])
+    fireFrame = numpy.array([0,0,0,0,0,0,0])
     ListWavelet = []
     ListLuminance = []
     ListGrayImage = []
+    ListRegion = []
     AllFrame = 0
-
+    list_color = cdt.retriveColorList()
+    starts = time.time()
     while(vd.isOpened(videoFile)):
         try :
             #get curent frame
@@ -41,83 +42,84 @@ def readingVideo(videoFile):
                 if (len(currentFrame)<=300):
                     currentFrame2 = copy.copy(currentFrame)
                 currentFrame = vd.downSize(currentFrame)
+            counter+=1
 
-            # get moving pixel
+            # step 1 get moving pixel
             movingFrame = mv.getMovingForeGround(vd.copyFile(currentFrame))
             movingPixel = mv.getMovingPixel(vd.copyFile(movingFrame))
 
-            #candidate pixel ( color probability )
-            ColorCandidatePixel = cdt.getCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), stdDev, mean)
+            # step 2 candidate pixel ( color probability )
+            # ColorCandidatePixel = cdt.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), stdDev, mean)
+            ColorCandidatePixel = cdt.getColorCandidatePixel2(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
 
-            #candidate pixel ( brightness ), convert image to gray with luminance
+            #region growing
+            # region = grw.getGrowingRegion(ColorCandidatePixel[0], copy.copy(currentFrame),stdDev, mean)
+            region = grw.getGrowingRegion2(ColorCandidatePixel[0], copy.copy(currentFrame),list_color)
+
+            # step 3 candidate pixel ( brightness ), convert image to gray with luminance and split by region
             luminanceImageGray = lum.getLuminanceImageGray(copy.copy(currentFrame))
-            LuminanceCandidatePixel = idt.getIntensityPixel(copy.copy(luminanceImageGray),copy.copy(ColorCandidatePixel[0]),copy.copy(movingPixel))
+            LuminanceCandidatePixel = idt.getLuminanceCandidatePixel(copy.copy(luminanceImageGray),copy.copy(ColorCandidatePixel[0]),copy.copy(region))
 
-            vd.showVideo("luminanceGray",luminanceImageGray)
+            # step 4 candidate pixel ( variance color per region ) -- issue on threshold --
+            VarianceCandidatePixel = grw.getVarianceColorRegion(copy.copy(currentFrame),copy.copy(LuminanceCandidatePixel[0]),copy.copy(region))
 
-            #convert image to luminance image with gaussian filter 7 and 13
-            luminanceImage = lum.getLumiananceImage(currentFrame)
-
-            # covert image to wavelet
+            #preparing step 5 & 6
             grayImage = vd.toGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
+            luminanceImage = lum.getLumiananceImage(currentFrame)
 
-            ListGrowPixel = grw.getRegion(LuminanceCandidatePixel[0],copy.copy(currentFrame),stdDev, mean,counter)
-
-            #append image
             ListLuminance.append(luminanceImage)
             ListWavelet.append([HL,LH,HH])
             ListGrayImage.append(copy.copy(grayImage))
-
-            counter+=1
+            ListRegion.append(region)
             if (counter<=10):
                 continue
-
             ListLuminance.pop(0)
             ListWavelet.pop(0)
             ListGrayImage.pop(0)
+            ListRegion.pop(0)
 
-            # ListDiferrentPixel = idt.getDiferencePixel(ListLuminance,copy.copy(ListGrowPixel[0]))
-            ListDiferrentPixel = copy.copy(ListGrowPixel)
+            DiferenceCandidatePixel = idt.getDiferencePixel(ListLuminance,copy.copy(VarianceCandidatePixel[0]))
 
-            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(ListDiferrentPixel[0]),ListWavelet)
-            # cls.doClassification(classifier,copy.copy(ListCandidatePixel[0]),ListWavelet)
+            RegionCenterMovement = grw.getGrowingCenterPoint(ListRegion,copy.copy(DiferenceCandidatePixel[0]))
 
+            # DiferenceCandidatePixel = idt.getDiferencePixel2(ListLuminance,copy.copy(DiferenceCandidatePixel[0]))
+
+            FinalCandidatePixel = cls.doClassification(classifier,copy.copy(RegionCenterMovement[0]),ListWavelet)
             if len(movingPixel[0])>0:
                 fireFrame[0]+=1
             if len(ColorCandidatePixel[0])>0:
                 fireFrame[1]+=1
             if len(LuminanceCandidatePixel[0])>0:
                 fireFrame[2]+=1
-            if len(ListGrowPixel[0])>0:
+            if len(VarianceCandidatePixel[0])>0:
                 fireFrame[3]+=1
-            if len(ListDiferrentPixel[0])>0:
+            if len(DiferenceCandidatePixel[0])>0:
                 fireFrame[4]+=1
-            if len(FinalCandidatePixel[0])>0:
+            if len(RegionCenterMovement[0])>0:
                 fireFrame[5]+=1
+            if len(FinalCandidatePixel[0])>0:
+                fireFrame[6]+=1
             AllFrame+=1
 
             fireFrameImage = vd.upSize(vd.upSize(mv.markPixelRectangle(FinalCandidatePixel[0],currentFrame)))
             vd.showVideo('Final',fireFrameImage)
+
             vd.waitVideo(1)
 
         except :
+            print "Time : ",time.time() - starts
             return (fireFrame)/float(AllFrame)
+    print "Time : ",time.time() - starts
     return (fireFrame)/float(AllFrame)
 
 
 if __name__ == '__main__':
-    fileName = '../../dataset/data2/flame1.avi'
-    # fileName = '../../dataset/uji/TunnelAccident3.avi'
-    # fileName = '../../dataset/data3/IMG_7357.MOV'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_2.avi'
-    # fileName = '../../dataset/CCTV Local Tavern Fight Tzaneen.mp4'
-    # fileName = 0
+    fileName = '../../dataset/hasil/39.mp4'
 
     print fileName
     videoFile = vd.openVideo(fileName)
-    start = time.time()
     res = readingVideo(videoFile)
-    print "Time : ",time.time() - start
     print "Acc : ",res*100,' %'
+    print "Moving | Color | Luminance | Variance Color | Pixel Color Movement | Moving Center Point | Classififcation"
     vd.closeVideo(videoFile)

@@ -39,7 +39,7 @@ def doClassification(classifier, list, wavelet):
             cnt+=1
             data.append(res)
         data = np.sort(data)
-        data = np.add(data,-data[0])
+        # data = np.add(data,-data[0])
         classes = classifier.predict(data)
         if classes == 'Api':
             truePixel.append([x[0],x[1]])

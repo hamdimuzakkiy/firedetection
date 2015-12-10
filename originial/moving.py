@@ -4,6 +4,7 @@ import cv2
 import copy
 import numpy as np
 
+
 #set learning rate
 def setLearningRate(point):
     global learningRate
@@ -109,6 +110,7 @@ def markPixelRectangleBnW(list,image):
         image[maxY][x] = 0
     return image
 
+# learningRate = 0.0005
 learningRate = 0.0
 BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
 

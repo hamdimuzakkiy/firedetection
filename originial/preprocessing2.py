@@ -4,6 +4,7 @@ import sys
 import cv2
 import excel
 import copy
+import moving as mv
 
 np.set_printoptions(threshold=sys.maxint)
 
@@ -69,6 +70,12 @@ class c_data:
             res.append(tmp)
         return res
 
+    def getMaxList(self,data):
+        return np.max(data)
+
+    def getMinList(self,data):
+        return np.min(data)
+
 class colorDetection(c_data):
 
     def __init__(self):
@@ -77,7 +84,7 @@ class colorDetection(c_data):
     def getThreshold(self):
         return pow(10,-8)
 
-    def getCandidatePixel(self,list, image, stdDev, mean):
+    def getColorCandidatePixel(self,list, image, stdDev, mean):
         self.threshold = self.getThreshold()
         truePixel = []
         falsePixel = []
@@ -100,8 +107,9 @@ class luminance(c_data,imageProcessing):
 
     def toLuminance(self,gaussianLuminance7,gaussianLuminance13):
         # get max and min image , normalization image
-        max7,max13 = np.max(gaussianLuminance7),np.max(gaussianLuminance13)
-        min7,min13 = np.min(gaussianLuminance7),np.min(gaussianLuminance13)
+        max7,max13 = c_data.getMaxList(self,gaussianLuminance7),c_data.getMaxList(self,gaussianLuminance13)
+        min7,min13 = c_data.getMinList(self,gaussianLuminance7),c_data.getMinList(self,gaussianLuminance13)
+
         if (max7-min7 == 0):
             max7+=1
         if (max13-min13 == 0):
@@ -133,51 +141,12 @@ class intensityDetection(c_data):
     def __init__(self):
         c_data.__init__(self)
 
-    def getRangeFire(self,image,listCandidate,range,constanta):
-        if len(listCandidate) == 0:
-            return False,False,False,False
-
-        listCandidates = np.array(listCandidate)
-
-        minY,maxY =  min(listCandidates[:,0]),max(listCandidates[:,0])
-        minX,maxX =  min(listCandidates[:,1]),max(listCandidates[:,1])
-
-        constanta = 2
-        constanta-=1
-        par1 = maxX - minX
-        par2 = maxY - minY
-
-        maxRange = min(par1,par2)
-        lenY = maxRange
-        lenX = maxRange
-
-        if minY - int(lenY*constanta) < 0:
-            minY = 0
-        else :
-            minY = minY - int(lenY*constanta)
-
-        if minX - int(lenX*constanta) < 0:
-            minX = 0
-        else :
-            minX = minX - int(lenX*constanta)
-
-        if int(maxY+lenY*constanta)>=len(image):
-            maxY = int(len(image)-1)
-        else:
-            maxY = int(maxY+lenY*constanta)
-        if int(maxX+lenX*constanta)>=len(image[0]):
-            maxX = int(len(image)-1)
-        else:
-            maxX = int(maxX+lenX*constanta)
-
-        return minY,minX,maxY,maxX
-
     def getRange(self,image,listCandidate,range,constanta):
-        if len(listCandidate) == 0:
-            return False,False,False,False
+        # if len(listCandidate) == 0:
+        #     return False,False,False,False
 
-        minY,maxY =  min(range[0]),max(range[0])
-        minX,maxX =  min(range[1]),max(range[1])
+        minY,maxY =  c_data.getMinList(self,range[0]),c_data.getMaxList(self,range[0])
+        minX,maxX =  c_data.getMinList(self,range[1]),c_data.getMaxList(self,range[1])
 
         constanta-=1
         par1 = maxX - minX
@@ -262,7 +231,66 @@ class intensityDetection(c_data):
                 truePixel.append([x[0],x[1]])
             else:
                 falsePixel.append([x[0],x[1]])
+        return truePixel,falsePixel
 
+    def getRangeConstant(self,images,listCandidate,constanta):
+        minY,minX = c_data.getMinList(self,listCandidate[0]),c_data.getMinList(self,listCandidate[1])
+        maxY,maxX = c_data.getMaxList(self,listCandidate[0]),c_data.getMaxList(self,listCandidate[1])
+
+        constanta-=1
+        par1 = maxX - minX
+        par2 = maxY - minY
+
+        maxRange = min(par1,par2)
+        lenY = maxRange
+        lenX = maxRange
+
+        if minY - int(lenY*constanta) < 0:
+            minY = 0
+        else :
+            minY = minY - int(lenY*constanta)
+
+        if minX - int(lenX*constanta) < 0:
+            minX = 0
+        else :
+            minX = minX - int(lenX*constanta)
+
+        if int(maxY+lenY*constanta)>=len(images):
+            maxY = int(len(images)-1)
+        else:
+            maxY = int(maxY+lenY*constanta)
+        if int(maxX+lenX*constanta)>=len(images[0]):
+            maxX = int(len(images[0])-1)
+        else:
+            maxX = int(maxX+lenX*constanta)
+
+        return minY,minX,maxY,maxX
+
+    def getLuminanceCandidatePixel(self, image, listCandidate, region):
+        truePixel = []
+        falsePixel = []
+        threshold = dict()
+        listRegion = np.unique(region)
+        for x in range(1,len(listRegion)):
+            lists = np.where(region == x)
+            minY,minX = c_data.getMinList(self,lists[0]),c_data.getMinList(self,lists[1])
+            maxY,maxX = c_data.getMaxList(self,lists[0]),c_data.getMaxList(self,lists[1])
+            candidateObject = copy.copy(image)[minY:maxY,minX:maxX]
+            minY,minX,maxY,maxX = self.getRangeConstant(image,lists,1.1)
+            aroundObject = copy.copy(image)[minY:maxY,minX:maxX]
+            sumCandaidate = np.sum(candidateObject)
+            sumArround = np.sum(aroundObject)
+            try:
+                threshold[x] = (sumArround-sumCandaidate)/((len(aroundObject)*len(aroundObject[0]))-(len(candidateObject)*len(candidateObject[0]))+1)
+            except:
+                threshold[x] = 255
+        for x in listCandidate:
+            coor_y = x[0]
+            coor_x = x[1]
+            if image[coor_y][coor_x] >= threshold[region[coor_y][coor_x]]:
+                truePixel.append([coor_y,coor_x])
+            else:
+                falsePixel.append([coor_y,coor_x])
         return truePixel,falsePixel
 
 class growing(c_data,imageProcessing,colorDetection):
@@ -289,7 +317,23 @@ class growing(c_data,imageProcessing,colorDetection):
                     stack.append([coory+x[0],coorx+x[1]])
         return resImg,is_visit,res
 
-    def getRegion(self,list,images,stdDev, mean,counter):
+    def getGrowingRegion(self,list,images,stdDev,mean):
+        grayImage = imageProcessing.toGray(self,images)
+        is_visit = grayImage*0
+        resImg = copy.copy(grayImage)
+        region = 0
+        for x in list:
+            coor_y = x[0]
+            coor_x = x[1]
+            if is_visit[coor_y][coor_x] == 0:
+                stack = []
+                region+=1
+                stack.append([coor_y,coor_x])
+                is_visit[coor_y][coor_x] = region
+                resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,region,stdDev, mean, images)
+        return is_visit
+
+    def getRegion(self,list,images,stdDev, mean):
         truePixel = []
         falsePixel = []
         grayImage = imageProcessing.toGray(self,images)
@@ -297,6 +341,7 @@ class growing(c_data,imageProcessing,colorDetection):
         resImg = copy.copy(grayImage)
         regs = 0
         is_fire = dict()
+        reg_fire = dict()
         for x in list:
             coor_y = x[0]
             coor_x = x[1]
@@ -305,8 +350,8 @@ class growing(c_data,imageProcessing,colorDetection):
                 regs+=1
                 stack.append([coor_y,coor_x])
                 resImg, is_visit, res = self.doFloodFill(grayImage,resImg,is_visit,stack,regs,stdDev, mean, images)
+                reg_fire[regs] = np.average(res)
                 if np.std(res) > 20:
-                    print res,np.std(res)
                     is_fire[regs] = True
                     truePixel.append([coor_y,coor_x])
                 else :
@@ -317,4 +362,4 @@ class growing(c_data,imageProcessing,colorDetection):
                     truePixel.append([coor_y,coor_x])
                 else :
                     falsePixel.append([coor_y,coor_x])
-        return truePixel,falsePixel
+        return [truePixel,falsePixel], reg_fire, is_visit
