@@ -9,7 +9,6 @@ import copy
 import numpy
 
 
-
 def readingVideo(videoFile):
     Color = preprocessing.ColorDetection()
     File = preprocessing.File()
@@ -58,14 +57,14 @@ def readingVideo(videoFile):
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
 
             #region growing
-            region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
+            # region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
 
             # step 3 candidate pixel ( brightness ), convert image to gray with luminance and split by region
-            luminanceImageGray = Luminance.getLuminanceImageGray(copy.copy(gray_image))
-            LuminanceCandidatePixel = Intensity.getLuminanceCandidatePixel(copy.copy(luminanceImageGray),copy.copy(ColorCandidatePixel[0]),copy.copy(region))
+            # luminanceImageGray = Luminance.getLuminanceImageGray(copy.copy(gray_image))
+            # LuminanceCandidatePixel = Intensity.getLuminanceCandidatePixel(copy.copy(luminanceImageGray),copy.copy(ColorCandidatePixel[0]),copy.copy(region))
 
             # step 4 candidate pixel ( variance color per region ) -- issue on threshold --
-            VarianceCandidatePixel = RegionGrowing.getVarianceColorCandidatePixel(copy.copy(currentFrame),copy.copy(LuminanceCandidatePixel[0]),copy.copy(region))
+            # VarianceCandidatePixel = RegionGrowing.getVarianceColorCandidatePixel(copy.copy(currentFrame),copy.copy(LuminanceCandidatePixel[0]),copy.copy(region))
 
             #preparing step 5 & 6
             grayImage = ImageProcessing.getRGBtoGray(currentFrame2)
@@ -75,19 +74,21 @@ def readingVideo(videoFile):
             list_luminance.append(luminanceImage)
             list_wavelet.append([HL,LH,HH])
             list_gray_image.append(copy.copy(grayImage))
-            list_region.append(region)
+            # list_region.append(region)
             if (counter<=10):
                 continue
             list_luminance.pop(0)
             list_wavelet.pop(0)
             list_gray_image.pop(0)
-            list_region.pop(0)
+            # list_region.pop(0)
 
             diference_time = time.time()
-            DiferenceCandidatePixel = Intensity.getDifferenceCandidatePixel(list_luminance,copy.copy(VarianceCandidatePixel[0]))
+            # DiferenceCandidatePixel = Intensity.getDifferenceCandidatePixel(list_luminance,copy.copy(VarianceCandidatePixel[0]))
 
             # RegionCenterMovement = RegionGrowing.getMovingPointCandidatePixel(list_region,copy.copy(DiferenceCandidatePixel[0]))
-            RegionCenterMovement = RegionGrowing.getMovingPointCandidatePixel2(list_region,copy.copy(DiferenceCandidatePixel[0]))
+            # RegionCenterMovement = RegionGrowing.getMovingPointCandidatePixel2(list_region,copy.copy(DiferenceCandidatePixel[0]))
+
+            RegionCenterMovement = ColorCandidatePixel
 
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(RegionCenterMovement[0]),list_wavelet)
             fireFrameImage = (ImageProcessing.getUpSize(Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
@@ -97,12 +98,12 @@ def readingVideo(videoFile):
                 fireFrame[0]+=1
             if len(ColorCandidatePixel[0])>0:
                 fireFrame[1]+=1
-            if len(LuminanceCandidatePixel[0])>0:
-                fireFrame[2]+=1
-            if len(VarianceCandidatePixel[0])>0:
-                fireFrame[3]+=1
-            if len(DiferenceCandidatePixel[0])>0:
-                fireFrame[4]+=1
+            # if len(LuminanceCandidatePixel[0])>0:
+            #     fireFrame[2]+=1
+            # if len(VarianceCandidatePixel[0])>0:
+            #     fireFrame[3]+=1
+            # if len(DiferenceCandidatePixel[0])>0:
+            #     fireFrame[4]+=1
             if len(RegionCenterMovement[0])>0:
                 fireFrame[5]+=1
             if len(FinalCandidatePixel[0])>0:
@@ -120,14 +121,18 @@ def readingVideo(videoFile):
 
 
 if __name__ == '__main__':
-    fileName = '../../dataset/fix_data/non_api_tembak2.avi'
-    fileName = '../../dataset/fix_data/non_api_tembak3.avi'
-    fileName = '../../dataset/fix_data/non_api_tembak4.avi'
-
-    print fileName
+    file = 'non_api_televisi2.avi'
+    path = '../../dataset/fix_data/'
+    print file
+    fileName = path+file
     File = preprocessing.File()
     videoFile = File.openVideo(fileName)
     res = readingVideo(videoFile)*100
     print "Acc : ",res,' %'
     print "Moving | Color | Luminance | Variance Color | Pixel Color Movement | Moving Center Point | Classififcation"
+    report = []
+    report.append(file)
+    for y in res:
+        report.append(y)
+    # excel.writeAccuracy('-file-laporan/akurasi_c=3.5_tanpa step 3-6.xls',report)
     File.closeVideo(videoFile)
