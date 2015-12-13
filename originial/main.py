@@ -1,13 +1,14 @@
 __author__ = 'hamdiahmadi'
 import classification as cls
-# import preprocessing as preprocessing
+
+import excel
 import preprocessing as preprocessing
 import wavelet as wv
 import time
 import copy
 import numpy
 
-import moving as mv
+
 
 def readingVideo(videoFile):
     Color = preprocessing.ColorDetection()
@@ -18,19 +19,18 @@ def readingVideo(videoFile):
     ImageProcessing = preprocessing.ImageProcessing()
     Moving = preprocessing.Moving()
 
-    stdDev, mean = Color.getStdDevAndMean('FireImage')
+    stdDev, mean = Color.getStdDevAndMean('-dataset-fire_image')
     print "Stdev : "+str(stdDev), "Mean : "+str(mean)
     print "Video Frame : ",File.getCountFrame(videoFile)
     print "Video Size : ",len(File.readVideo(videoFile)[1]),len(File.readVideo(videoFile)[1][0])
 
-
-    classifier = cls.getClassification()
+    classifier = cls.getClassifier('-file-datatraining/TA.xls')
     fireFrame = numpy.array([0,0,0,0,0,0,0])
     list_wavelet = []
     list_luminance = []
     list_gray_image = []
     list_region = []
-    list_color = Color.getFireArray()
+    list_color = Color.getFireArray('color.txt')
     AllFrame = 0
     counter = 0
 
@@ -52,6 +52,7 @@ def readingVideo(videoFile):
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
 
+            # movings = mv.getMovingForeGroundColor(currentFrame,movingFrame)
 
             # step 2 candidate pixel ( color probability )
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
@@ -82,11 +83,16 @@ def readingVideo(videoFile):
             list_gray_image.pop(0)
             list_region.pop(0)
 
+            diference_time = time.time()
             DiferenceCandidatePixel = Intensity.getDifferenceCandidatePixel(list_luminance,copy.copy(VarianceCandidatePixel[0]))
 
-            RegionCenterMovement = RegionGrowing.getMovingPointCandidatePixel(list_region,copy.copy(DiferenceCandidatePixel[0]))
+            # RegionCenterMovement = RegionGrowing.getMovingPointCandidatePixel(list_region,copy.copy(DiferenceCandidatePixel[0]))
+            RegionCenterMovement = RegionGrowing.getMovingPointCandidatePixel2(list_region,copy.copy(DiferenceCandidatePixel[0]))
 
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(RegionCenterMovement[0]),list_wavelet)
+            fireFrameImage = (ImageProcessing.getUpSize(Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
+            File.showVideo('Final',fireFrameImage)
+
             if len(movingPixel[0])>0:
                 fireFrame[0]+=1
             if len(ColorCandidatePixel[0])>0:
@@ -101,10 +107,8 @@ def readingVideo(videoFile):
                 fireFrame[5]+=1
             if len(FinalCandidatePixel[0])>0:
                 fireFrame[6]+=1
-            AllFrame+=1
 
-            fireFrameImage = ImageProcessing.getUpSize(ImageProcessing.getUpSize(Moving.markingFire(FinalCandidatePixel[0],currentFrame)))
-            File.showVideo('Final',fireFrameImage)
+            AllFrame+=1
 
             File.waitVideo(1)
 
@@ -116,16 +120,14 @@ def readingVideo(videoFile):
 
 
 if __name__ == '__main__':
-    fileName = '../../dataset/hasil/7.mp4'
-    fileName = '../../dataset/data2/flame1.avi'
-    # fileName = '../../dataset/data1/smoke_or_flame_like_object_1.avi'
-
-    # fileName = '../../dataset/Live Murder caught by CCTV camera.mp4'
+    fileName = '../../dataset/fix_data/non_api_tembak2.avi'
+    fileName = '../../dataset/fix_data/non_api_tembak3.avi'
+    fileName = '../../dataset/fix_data/non_api_tembak4.avi'
 
     print fileName
     File = preprocessing.File()
     videoFile = File.openVideo(fileName)
-    res = readingVideo(videoFile)
-    print "Acc : ",res*100,' %'
+    res = readingVideo(videoFile)*100
+    print "Acc : ",res,' %'
     print "Moving | Color | Luminance | Variance Color | Pixel Color Movement | Moving Center Point | Classififcation"
     File.closeVideo(videoFile)

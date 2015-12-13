@@ -8,9 +8,6 @@ import os
 
 # np.set_printoptions(threshold=sys.maxint)
 
-BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
-
-
 class File:
 
     def __init__(self):
@@ -31,8 +28,8 @@ class File:
     def isOpened(self, video):
         return video.isOpened()
 
-    def readVideo(self, video):
-        return video.read()
+    def readImage(self, path):
+        return cv2.imread(path)
 
     def waitVideo(self, sec):
         return cv2.waitKey(sec)
@@ -62,6 +59,14 @@ class Data:
         clocks.append([1,-1])
         clocks.append([1,0])
         clocks.append([1,1])
+        return clocks
+
+    def getClockwise4(self):
+        clocks = []
+        clocks.append([-1,0])
+        clocks.append([0,-1])
+        clocks.append([0,1])
+        clocks.append([1,0])
         return clocks
 
     def getDatasetPixel(data):
@@ -111,39 +116,8 @@ class Data:
     def sumArray(self, list_data):
         return np.sum(list_data,axis=0)
 
-class Moving:
-
-    def __init__(self):
-        pass
-
-    #return learning rate
-    def getLearningRate(self):
-        return 0.0
-
-    #return index moving foreground ( moving object )
-    def getMovingForeGround(self, image):
-        global BckgrSbsMOG
-        return BckgrSbsMOG.apply(image,learningRate = self.getLearningRate())
-
-    #return image moving foreground ( moving object )
-    def getMovingCandidatePixel(self, moving_frame):
-        listY,listX = np.where( moving_frame == 255 )
-        return np.vstack((listY,listX))
-
-    #marking pixel
-    def markingFire(self, list_fire, image):
-        if len(list_fire) == 0:
-            return image
-        list = np.array(list_fire)
-        min_y,max_y =  min(list[:,0]),max(list[:,0])
-        min_x,max_x =  min(list[:,1]),max(list[:,1])
-        for y in range(min_y,max_y+1):
-            image[y][min_x] = [255,191,0]
-            image[y][max_x] = [255,191,0]
-        for x in range(min_x,max_x+1):
-            image[min_y][x] = [255,191,0]
-            image[max_y][x] = [255,191,0]
-        return image
+    def getDistance(self, point1, point2):
+        return np.sqrt(pow(point1[0]-point2[0],2)+pow(point1[1]-point2[1],2))
 
 class ImageProcessing:
     def __init__(self):
@@ -178,9 +152,9 @@ class ColorDetection(Data,File,ImageProcessing):
         return 5*pow(10,-9)
 
     # return Array dengan index R G B dimana array tersebut memiliki nilai True & False sebagai referensi apakah Api atau Bukan
-    def getFireArray(self):
+    def getFireArray(self,path):
         lists = [[[False for k in xrange(256)] for j in xrange(256)]for i in xrange(256)]
-        data = open('color.txt','r')
+        data = open(path,'r')
         for x in data:
             color = (x.split('\n')[0]).split(' ')
             lists[int(color[0])][int(color[1])][int(color[2])] = True
@@ -263,7 +237,7 @@ class Luminance(Data,ImageProcessing):
 
     #return luminance 2 gray image
     def getLuminanceImageGray(self,gray_image):
-        return self.getLuminance(gray_image,gray_image)
+        return gray_image
 
     #return luminance luminance image dengan gaussian filter 7 dan gaussian filter 13
     def getLumiananceImage(self,gray_image):
@@ -349,6 +323,48 @@ class Intensity(Data):
                 falsePixel.append([x[0],x[1]])
         return truePixel,falsePixel
 
+class Moving(Intensity,ImageProcessing):
+
+    def __init__(self):
+        self.BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
+        pass
+
+    #return learning rate
+    def getLearningRate(self):
+        return 0.00
+
+    #return index moving foreground ( moving object )
+    def getMovingForeGround(self, image):
+        return self.BckgrSbsMOG.apply(image,learningRate = self.getLearningRate())
+
+    #return image moving foreground ( moving object )
+    def getMovingCandidatePixel(self, moving_frame):
+        listY,listX = np.where( moving_frame == 255 )
+        return np.vstack((listY,listX))
+
+    #marking pixel
+    def markingFire(self, list_fire, image, constanta):
+        if len(list_fire) == 0:
+            return image
+
+        list = np.array(list_fire)
+        min_y,max_y =  min(list[:,0]),max(list[:,0])
+        min_x,max_x =  min(list[:,1]),max(list[:,1])
+
+        distance_y = int((max_y-min_y)/2)*constanta
+        distance_x = int((max_x-min_x)/2)*constanta
+        center_point = [int((max_y+min_y)*constanta/2),int((max_x+min_x)*constanta/2)]
+
+        min_y,min_x,max_y,max_x = center_point[0]-distance_y, center_point[1] - distance_x, center_point[0] + distance_y, center_point[1] +distance_x
+
+        for y in range(min_y,max_y+1):
+            image[y][min_x] = [255,191,0]
+            image[y][max_x] = [255,191,0]
+        for x in range(min_x,max_x+1):
+            image[min_y][x] = [255,191,0]
+            image[max_y][x] = [255,191,0]
+        return image
+
 class RegionGrowing(Data,ImageProcessing,File):
 
     def __init__(self):
@@ -418,9 +434,68 @@ class RegionGrowing(Data,ImageProcessing,File):
                 false_pixel.append([coor_y,coor_x])
         return true_pixel,false_pixel
 
+    def getMovingPointCandidatePixel2(self, list_region_growing, list_candidate):
+        true_pixel = []
+        false_pixel = []
+        ref = []
+        for x in list_region_growing:
+            res = dict()
+            list_region = np.unique(x)
+            for val in list_region :
+                if val == 0:
+                    continue
+                reg = (np.where(x == val))
+                minY,minX,maxY,maxX = np.min(reg[0]),np.min(reg[1]),np.max(reg[0]),np.max(reg[1])
+                res[val] = [(maxY-minY)/2,(maxX-minX)/2]
+            ref.append(res)
+        result_dict = dict()
+        for x in ref[len(list_region_growing)-1]:
+            res = 0
+            frame_number = len(list_region_growing)-1
+            cur_region = x
+            tmp = copy.copy(list_region_growing[len(list_region_growing)-1])*100000
+            Flag = False
+            for y in range(len(list_region_growing)-2,-1,-1):
+                matrix_adding = np.add(tmp,list_region_growing[y])
+                max = 0
+                next_cur_region = x
+                for z in ref[y]:
+                    size = len(np.where(matrix_adding == 100000*cur_region+z)[0])
+                    if size > max :
+                        max = size
+                        next_cur_region = z
+                        Flag = True
+                if Flag == True:
+                    next_point = ref[y][next_cur_region]
+                    curent_point = ref[frame_number][cur_region]
+                    res+=Data.getDistance(self, curent_point, next_point)
+                    tmp = copy.copy(list_region_growing[y])*100000
+                    cur_region = next_cur_region
+                    frame_number = y
+                    Flag = False
+            if res/10 > 1:
+                result_dict[x] = True
+            else :
+                result_dict[x] = False
+        for x in list_candidate:
+            val = list_region_growing[len(list_region_growing)-1][x[0]][x[1]]
+            if result_dict[val] == True:
+                true_pixel.append([x[0],x[1]])
+            else :
+                true_pixel.append([x[0],x[1]])
+
+        # for x in result_dict:
+        #     tmp = np.where(list_region_growing[len(list_region_growing)-1] == x)
+        #     if result_dict[x] == True:
+        #         for y in range(0,len(tmp[0])):
+        #             true_pixel.append([tmp[0][y],tmp[1][y]])
+        #     else :
+        #         for y in range(0,len(tmp[0])):
+        #             false_pixel.append([tmp[0][y],tmp[1][y]])
+        return true_pixel,false_pixel
+
     #return floodfill image
     def doFloodFill(self, gray_image ,result_image ,is_visit, stack, region_number, color_dataset, original_image):
-        image = np.int_(gray_image)
         clocks = Data.getClockwise(self)
         while len(stack) != 0:
             coory,coorx = stack[0]
@@ -429,13 +504,13 @@ class RegionGrowing(Data,ImageProcessing,File):
             data = original_image[coory][coorx]
             B,G,R = data[0],data[1],data[2]
             for x in clocks:
-                if  coory+x[0] < 0 or coory+x[0] == len(image) or coorx+x[1] < 0 or coorx+x[1] == len(image[0]) or is_visit[coory+x[0]][coorx+x[1]] != 0:
-                    continue
-                elif color_dataset[B][G][R] == True:
-                    is_visit[coory+x[0]][coorx+x[1]] = region_number
-                    stack.append([coory+x[0],coorx+x[1]])
+                try :
+                    if is_visit[coory+x[0]][coorx+x[1]] == 0 and color_dataset[B][G][R] == True :
+                        is_visit[coory+x[0]][coorx+x[1]] = region_number
+                        stack.append([coory+x[0],coorx+x[1]])
+                except :
+                    pass
         return result_image,is_visit
-
     #return floodfill image
     def getRegionGrowing(self, list_candidate, images, color_dataset,counter):
         gray_image = ImageProcessing.getRGBtoGray(self,images)
@@ -451,5 +526,4 @@ class RegionGrowing(Data,ImageProcessing,File):
                 stack.append([coor_y,coor_x])
                 is_visit[coor_y][coor_x] = region_number
                 result_image, is_visit = self.doFloodFill( gray_image, result_image, is_visit, stack, region_number, color_dataset, images)
-        File.saveImage(self,"temp/"+str(counter)+'.png', ImageProcessing.getUpSize(self,result_image))
         return is_visit

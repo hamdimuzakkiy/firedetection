@@ -24,51 +24,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="779" max-vertical-offset="2312">
-              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.69796956" vertical-offset="1952" max-vertical-offset="2346">
+              <caret line="131" column="118" selection-start-line="131" selection-start-column="118" selection-end-line="131" selection-end-column="118" />
+              <folding>
+                <element signature="e#27#55#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main_fetching_datatraining.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_datatraining.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="983" max-vertical-offset="1989">
+              <caret line="111" column="29" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
+              <folding>
+                <element signature="e#27#55#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main_fetching_accuracy.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1884" max-vertical-offset="2278">
+              <caret line="126" column="74" selection-start-line="123" selection-start-column="8" selection-end-line="126" selection-end-column="74" />
+              <folding>
+                <element signature="e#27#55#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/preprocessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.65482235" vertical-offset="1204" max-vertical-offset="1598">
-              <caret line="453" column="102" selection-start-line="453" selection-start-column="102" selection-end-line="453" selection-end-column="102" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="833">
+              <caret line="337" column="20" selection-start-line="337" selection-start-column="20" selection-end-line="337" selection-end-column="20" />
               <folding>
                 <element signature="e#27#45#0" expanded="true" />
-                <element signature="e#240#244#0" expanded="false" />
-                <element signature="e#363#386#0" expanded="false" />
-                <element signature="e#931#2807#0" expanded="false" />
-                <element signature="e#959#963#0" expanded="false" />
-                <element signature="e#1054#1325#0" expanded="false" />
-                <element signature="e#1366#1617#0" expanded="false" />
-                <element signature="e#1796#2106#0" expanded="false" />
-                <element signature="e#2188#2507#0" expanded="false" />
-                <element signature="e#2595#2619#0" expanded="false" />
-                <element signature="e#2707#2731#0" expanded="false" />
-                <element signature="e#2828#3871#0" expanded="false" />
-                <element signature="e#2856#2860#0" expanded="false" />
-                <element signature="e#2927#2937#0" expanded="false" />
-                <element signature="e#3043#3139#0" expanded="false" />
-                <element signature="e#3900#4499#0" expanded="false" />
-                <element signature="e#4555#7407#0" expanded="false" />
-                <element signature="e#4670#4689#0" expanded="false" />
-                <element signature="e#4855#5137#0" expanded="false" />
-                <element signature="e#5265#5748#0" expanded="false" />
-                <element signature="e#5863#6329#0" expanded="false" />
-                <element signature="e#6369#6624#0" expanded="false" />
-                <element signature="e#7453#8729#0" expanded="false" />
-                <element signature="e#8759#11822#0" expanded="false" />
-                <element signature="e#11905#11909#0" expanded="false" />
-                <element signature="e#12060#12914#0" expanded="false" />
-                <element signature="e#13100#14386#0" expanded="false" />
-                <element signature="e#14540#15265#0" expanded="false" />
+                <element signature="e#166#869#0" expanded="false" />
+                <element signature="e#194#198#0" expanded="false" />
+                <element signature="e#317#340#0" expanded="false" />
+                <element signature="e#888#3076#0" expanded="false" />
+                <element signature="e#916#920#0" expanded="false" />
+                <element signature="e#1011#1282#0" expanded="false" />
+                <element signature="e#1321#1472#0" expanded="false" />
+                <element signature="e#1513#1764#0" expanded="false" />
+                <element signature="e#1943#2253#0" expanded="false" />
+                <element signature="e#2335#2654#0" expanded="false" />
+                <element signature="e#2742#2766#0" expanded="false" />
+                <element signature="e#2854#2878#0" expanded="false" />
+                <element signature="e#2923#2954#0" expanded="false" />
+                <element signature="e#3105#3704#0" expanded="false" />
+                <element signature="e#3760#6610#0" expanded="false" />
+                <element signature="e#3788#3792#0" expanded="false" />
+                <element signature="e#3875#3894#0" expanded="false" />
+                <element signature="e#4468#4951#0" expanded="false" />
+                <element signature="e#5066#5532#0" expanded="false" />
+                <element signature="e#5572#5827#0" expanded="false" />
+                <element signature="e#6656#7902#0" expanded="false" />
+                <element signature="e#6806#7387#0" expanded="false" />
+                <element signature="e#7932#10995#0" expanded="false" />
+                <element signature="e#9228#10456#0" expanded="false" />
+                <element signature="e#10605#10995#0" expanded="false" />
+                <element signature="e#11507#11592#0" expanded="false" />
+                <element signature="e#11677#12478#0" expanded="false" />
+                <element signature="e#12533#19118#0" expanded="false" />
+                <element signature="e#12561#12565#0" expanded="false" />
+                <element signature="e#12716#13570#0" expanded="false" />
+                <element signature="e#13756#15042#0" expanded="false" />
+                <element signature="e#15134#17602#0" expanded="false" />
+                <element signature="e#17756#18387#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/setup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -78,10 +120,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/dataset.py" />
-        <option value="$PROJECT_DIR$/pixel/savePixel.py" />
-        <option value="$PROJECT_DIR$/gaussian.py" />
-        <option value="$PROJECT_DIR$/testingWavelet.py" />
         <option value="$PROJECT_DIR$/corpingData/getDataCorped.py" />
         <option value="$PROJECT_DIR$/waveletData/getDataSet.py" />
         <option value="$PROJECT_DIR$/solvingCython.py" />
@@ -118,23 +156,27 @@
         <option value="$PROJECT_DIR$/preprocessing2.py" />
         <option value="$PROJECT_DIR$/main2.py" />
         <option value="$PROJECT_DIR$/dataset/retriveDataSet.py" />
-        <option value="$PROJECT_DIR$/wavelet.py" />
         <option value="$PROJECT_DIR$/preprocessings.py" />
         <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/preprocessings.pyx" />
-        <option value="$PROJECT_DIR$/excel.py" />
         <option value="$PROJECT_DIR$/getDataUji.py" />
         <option value="$PROJECT_DIR$/moving.py" />
         <option value="$PROJECT_DIR$/ColorProbability.py" />
+        <option value="$PROJECT_DIR$/preprocessings.pyx" />
+        <option value="$PROJECT_DIR$/processing.py" />
+        <option value="$PROJECT_DIR$/excel.py" />
+        <option value="$PROJECT_DIR$/wavelet.py" />
         <option value="$PROJECT_DIR$/classification.py" />
-        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy.py" />
         <option value="$PROJECT_DIR$/preprocessing.py" />
+        <option value="$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy2.py" />
+        <option value="$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_datatraining.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="width" value="1378" />
+    <option name="width" value="1377" />
     <option name="height" value="780" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -160,7 +202,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -189,12 +230,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dataset" />
+              <option name="myItemId" value="-code-fetching_datatraining" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -238,44 +280,6 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="retriveDataSet (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dataset" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="originial" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dataset/retriveDataSet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="moving" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="originial" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/moving.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
     <configuration default="false" name="ColorProbability" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -295,19 +299,57 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="getDataUji" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="main_fetching_datatraining" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/-code-fetching_datatraining" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="originial" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/getDataUji.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_datatraining.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="main_fetching_accuracy" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/-code-fetching_datatraining" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="originial" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="main_fetching_accuracy2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/-code-fetching_datatraining" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="originial" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -460,18 +502,18 @@
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.main2" />
       <item index="1" class="java.lang.String" itemvalue="Python.main" />
-      <item index="2" class="java.lang.String" itemvalue="Python.retriveDataSet (1)" />
-      <item index="3" class="java.lang.String" itemvalue="Python.moving" />
-      <item index="4" class="java.lang.String" itemvalue="Python.ColorProbability" />
-      <item index="5" class="java.lang.String" itemvalue="Python.getDataUji" />
+      <item index="2" class="java.lang.String" itemvalue="Python.ColorProbability" />
+      <item index="3" class="java.lang.String" itemvalue="Python.main_fetching_datatraining" />
+      <item index="4" class="java.lang.String" itemvalue="Python.main_fetching_accuracy" />
+      <item index="5" class="java.lang.String" itemvalue="Python.main_fetching_accuracy2" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.main" />
-        <item index="1" class="java.lang.String" itemvalue="Python.ColorProbability" />
-        <item index="2" class="java.lang.String" itemvalue="Python.getDataUji" />
-        <item index="3" class="java.lang.String" itemvalue="Python.retriveDataSet (1)" />
-        <item index="4" class="java.lang.String" itemvalue="Python.moving" />
+        <item index="1" class="java.lang.String" itemvalue="Python.main_fetching_datatraining" />
+        <item index="2" class="java.lang.String" itemvalue="Python.main_fetching_accuracy2" />
+        <item index="3" class="java.lang.String" itemvalue="Python.main_fetching_accuracy" />
+        <item index="4" class="java.lang.String" itemvalue="Python.ColorProbability" />
       </list>
     </recent_temporary>
   </component>
@@ -489,11 +531,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1378" height="780" extended-state="0" />
+    <frame x="-8" y="0" width="1377" height="780" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22834067" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22850844" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32444444" sideWeight="0.1068814" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -531,11 +573,402 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="40" />
+      <option name="time" value="45" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1836" max-vertical-offset="2312">
+          <caret line="122" column="48" selection-start-line="122" selection-start-column="48" selection-end-line="122" selection-end-column="48" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2295">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="306">
+          <caret line="9" column="36" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="36" />
+          <folding>
+            <element signature="e#137#200#0" expanded="false" />
+            <element signature="e#239#344#0" expanded="false" />
+            <element signature="e#1325#2045#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/excel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="493">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+          <folding>
+            <element signature="e#131#522#0" expanded="false" />
+            <element signature="e#1065#1301#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="164" max-vertical-offset="561">
+          <caret line="146" column="48" selection-start-line="146" selection-start-column="48" selection-end-line="146" selection-end-column="48" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="221">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2346">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1575" max-vertical-offset="2431">
+          <caret line="451" column="24" selection-start-line="451" selection-start-column="24" selection-end-line="451" selection-end-column="24" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="221">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="2312">
+          <caret line="120" column="72" selection-start-line="120" selection-start-column="72" selection-end-line="120" selection-end-column="72" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="868" max-vertical-offset="1275">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding>
+            <element signature="e#137#200#0" expanded="false" />
+            <element signature="e#239#344#0" expanded="false" />
+            <element signature="e#1325#2045#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1411">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2312">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="241" max-vertical-offset="1275">
+          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+          <folding>
+            <element signature="e#137#200#0" expanded="false" />
+            <element signature="e#239#344#0" expanded="false" />
+            <element signature="e#1325#2045#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="938" max-vertical-offset="1581">
+          <caret line="452" column="139" selection-start-line="452" selection-start-column="139" selection-end-line="452" selection-end-column="139" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2312">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="938" max-vertical-offset="1581">
+          <caret line="452" column="139" selection-start-line="452" selection-start-column="139" selection-end-line="452" selection-end-column="139" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="779" max-vertical-offset="2312">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1581">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#27#45#0" expanded="true" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wavelet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="21" max-vertical-offset="476">
@@ -561,7 +994,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1534" max-vertical-offset="1989">
           <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
-          <folding />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -583,7 +1018,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1534" max-vertical-offset="1989">
           <caret line="101" column="33" selection-start-line="101" selection-start-column="33" selection-end-line="101" selection-end-column="33" />
-          <folding />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -657,88 +1094,121 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wavelet.py">
+    <entry file="file://$PROJECT_DIR$/preprocessings.pyx">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42307693" vertical-offset="34" max-vertical-offset="476">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26923078" vertical-offset="0" max-vertical-offset="442">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataset/retriveDataSet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1144" max-vertical-offset="1870">
-          <caret line="83" column="16" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="53" />
-          <folding />
+        <state vertical-scroll-proportion="0.91435766" vertical-offset="7797" max-vertical-offset="8262">
+          <caret line="480" column="0" selection-start-line="480" selection-start-column="0" selection-end-line="480" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/excel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="1462">
-          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="493">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+          <folding>
+            <element signature="e#131#522#0" expanded="false" />
+            <element signature="e#1065#1301#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/classification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.002457" vertical-offset="307" max-vertical-offset="1326">
-          <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.9444444" vertical-offset="119" max-vertical-offset="714">
+          <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
           <folding>
-            <element signature="e#28#40#0" expanded="true" />
+            <element signature="e#137#200#0" expanded="false" />
+            <element signature="e#239#344#0" expanded="false" />
+            <element signature="e#1325#2045#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/wavelet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="779" max-vertical-offset="2312">
-          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.38636363" vertical-offset="34" max-vertical-offset="476">
+          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/preprocessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65482235" vertical-offset="1204" max-vertical-offset="1598">
-          <caret line="453" column="102" selection-start-line="453" selection-start-column="102" selection-end-line="453" selection-end-column="102" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="833">
+          <caret line="337" column="20" selection-start-line="337" selection-start-column="20" selection-end-line="337" selection-end-column="20" />
           <folding>
             <element signature="e#27#45#0" expanded="true" />
-            <element signature="e#240#244#0" expanded="false" />
-            <element signature="e#363#386#0" expanded="false" />
-            <element signature="e#931#2807#0" expanded="false" />
-            <element signature="e#959#963#0" expanded="false" />
-            <element signature="e#1054#1325#0" expanded="false" />
-            <element signature="e#1366#1617#0" expanded="false" />
-            <element signature="e#1796#2106#0" expanded="false" />
-            <element signature="e#2188#2507#0" expanded="false" />
-            <element signature="e#2595#2619#0" expanded="false" />
-            <element signature="e#2707#2731#0" expanded="false" />
-            <element signature="e#2828#3871#0" expanded="false" />
-            <element signature="e#2856#2860#0" expanded="false" />
-            <element signature="e#2927#2937#0" expanded="false" />
-            <element signature="e#3043#3139#0" expanded="false" />
-            <element signature="e#3900#4499#0" expanded="false" />
-            <element signature="e#4555#7407#0" expanded="false" />
-            <element signature="e#4670#4689#0" expanded="false" />
-            <element signature="e#4855#5137#0" expanded="false" />
-            <element signature="e#5265#5748#0" expanded="false" />
-            <element signature="e#5863#6329#0" expanded="false" />
-            <element signature="e#6369#6624#0" expanded="false" />
-            <element signature="e#7453#8729#0" expanded="false" />
-            <element signature="e#8759#11822#0" expanded="false" />
-            <element signature="e#11905#11909#0" expanded="false" />
-            <element signature="e#12060#12914#0" expanded="false" />
-            <element signature="e#13100#14386#0" expanded="false" />
-            <element signature="e#14540#15265#0" expanded="false" />
+            <element signature="e#166#869#0" expanded="false" />
+            <element signature="e#194#198#0" expanded="false" />
+            <element signature="e#317#340#0" expanded="false" />
+            <element signature="e#888#3076#0" expanded="false" />
+            <element signature="e#916#920#0" expanded="false" />
+            <element signature="e#1011#1282#0" expanded="false" />
+            <element signature="e#1321#1472#0" expanded="false" />
+            <element signature="e#1513#1764#0" expanded="false" />
+            <element signature="e#1943#2253#0" expanded="false" />
+            <element signature="e#2335#2654#0" expanded="false" />
+            <element signature="e#2742#2766#0" expanded="false" />
+            <element signature="e#2854#2878#0" expanded="false" />
+            <element signature="e#2923#2954#0" expanded="false" />
+            <element signature="e#3105#3704#0" expanded="false" />
+            <element signature="e#3760#6610#0" expanded="false" />
+            <element signature="e#3788#3792#0" expanded="false" />
+            <element signature="e#3875#3894#0" expanded="false" />
+            <element signature="e#4468#4951#0" expanded="false" />
+            <element signature="e#5066#5532#0" expanded="false" />
+            <element signature="e#5572#5827#0" expanded="false" />
+            <element signature="e#6656#7902#0" expanded="false" />
+            <element signature="e#6806#7387#0" expanded="false" />
+            <element signature="e#7932#10995#0" expanded="false" />
+            <element signature="e#9228#10456#0" expanded="false" />
+            <element signature="e#10605#10995#0" expanded="false" />
+            <element signature="e#11507#11592#0" expanded="false" />
+            <element signature="e#11677#12478#0" expanded="false" />
+            <element signature="e#12533#19118#0" expanded="false" />
+            <element signature="e#12561#12565#0" expanded="false" />
+            <element signature="e#12716#13570#0" expanded="false" />
+            <element signature="e#13756#15042#0" expanded="false" />
+            <element signature="e#15134#17602#0" expanded="false" />
+            <element signature="e#17756#18387#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_accuracy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1884" max-vertical-offset="2278">
+          <caret line="126" column="74" selection-start-line="123" selection-start-column="8" selection-end-line="126" selection-end-column="74" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/-code-fetching_datatraining/main_fetching_datatraining.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="983" max-vertical-offset="1989">
+          <caret line="111" column="29" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.69796956" vertical-offset="1952" max-vertical-offset="2346">
+          <caret line="131" column="118" selection-start-line="131" selection-start-column="118" selection-end-line="131" selection-end-column="118" />
+          <folding>
+            <element signature="e#27#55#0" expanded="true" />
           </folding>
         </state>
       </provider>

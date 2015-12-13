@@ -10,8 +10,8 @@ def readDataSet(file):
     data,classes = excel.readDataSet(file)
     return data, classes
 
-def getClassification():
-    x,y = readDataSet("dataset/TA2.xls")
+def getClassifier(datatraining):
+    x,y = readDataSet(datatraining)
     clf = svm.SVC(kernel = 'rbf',C = 3.5)
     clf.fit(x,y)
     return clf
@@ -37,7 +37,6 @@ def doClassification(classifier, list, wavelet):
             cnt+=1
             data.append(res)
         data = np.sort(data)
-        # data = np.add(data,-data[0])
         classes = classifier.predict(data)
         if classes == 'Api':
             truePixel.append([x[0],x[1]])
@@ -45,7 +44,7 @@ def doClassification(classifier, list, wavelet):
             falsePixel.append([x[0],x[1]])
     return truePixel,falsePixel
 
-def returnDataTraining(lassifier, list, wavelet,classes):
+def returnDataTraining(list, wavelet):
     listMax = []
     listMin = []
     result = []
@@ -66,8 +65,4 @@ def returnDataTraining(lassifier, list, wavelet,classes):
                 data.append(res)
         data = np.sort(data)
         result.append(data)
-        if classes == 'Api':
-            result.append(data)
-        else:
-            result.append(data)
     return result
