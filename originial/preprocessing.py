@@ -1,12 +1,8 @@
 __author__ = 'hamdiahmadi'
 import numpy as np
-import sys
 import cv2
-import excel
 import copy
 import os
-
-# np.set_printoptions(threshold=sys.maxint)
 
 class File:
 
@@ -256,7 +252,6 @@ class Intensity(Data):
         max_y,max_x = Data.getMaxList(self,list_candidate[0]),Data.getMaxList(self,list_candidate[1])
 
         constanta-=1
-
         max_range = min(max_x - min_x, max_y - min_y)
         len_y = max_range
         len_x = max_range
@@ -326,8 +321,10 @@ class Intensity(Data):
 class Moving(Intensity,ImageProcessing):
 
     def __init__(self):
-        self.BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
-        pass
+        try:
+            self.BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
+        except:
+            self.BckgrSbsMOG = cv2.createBackgroundSubtractorMOG2()
 
     #return learning rate
     def getLearningRate(self):
@@ -371,19 +368,14 @@ class RegionGrowing(Data,ImageProcessing,File):
         pass
 
     #return candidate pixel dengan mencari warna region dari objek
-    def getVarianceColorCandidatePixel(self,image,list_candidate,region):
+    def getFilterSizeRegion(self,list_candidate,region):
         true_pixel = []
         false_pixel = []
         list_region = np.unique(region)
-        gray_image = ImageProcessing.getRGBtoGray(self,image)
         threshold = dict()
         for x in range(1,len(list_region)):
             lists = np.where(region == x)
-            res = []
-            for y in range(0,len(lists[0])):
-                res.append(gray_image[lists[0][y]][lists[1][y]])
-            std = np.std(res)
-            if std > 20 and len(res) > 25:
+            if len(lists[0]) > 1*len(region)*len(region[0])/100:
                 threshold[x] = True
             else :
                 threshold[x] = False

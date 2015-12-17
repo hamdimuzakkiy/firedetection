@@ -1,0 +1,4 @@
+wavelet
+numpy
+cv2
+sklearn

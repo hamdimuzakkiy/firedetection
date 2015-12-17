@@ -49,3 +49,18 @@ def writeAccuracy(file, content):
         col+=1
     wb2.save(file)
     return
+
+def writeColor(file,content):
+    wb = xlrd.open_workbook(filename=file)
+    data = wb.sheet_by_index(0)
+    wb2 = copy(wb)
+    data2 = wb2.get_sheet(0)
+    row = 0
+    for x in content :
+        col = 0
+        for y in x:
+            data2.write(data.nrows+row,col,int(y))
+            col+=1
+        row+=1
+    wb2.save(file)
+    return
