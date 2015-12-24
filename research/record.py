@@ -14,7 +14,8 @@ print "Status : ",O_capture.isOpened()
 frameCount = O_capture.get(7)
 a=0
 # while (O_capture.isOpened()):
-#     image = O_capture.read()[1]
+#     image =
+# O_capture.read()[1]
 #     a+=1
 #     if (a == frameCount-1):
 #         break

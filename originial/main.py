@@ -34,25 +34,30 @@ def readingVideo(videoFile):
         try :
             #get curent frame
             currentFrame = File.readVideo(videoFile)[1]
-            #compres image
-            while (len(currentFrame)>150):
-                if (len(currentFrame)<=300):
-                    currentFrame2 = copy.copy(currentFrame)
-                currentFrame = ImageProcessing.getDownSize(currentFrame)
+
+            if len(currentFrame) == 0:
+                return
+
+            currentFrame2 = copy.copy(currentFrame)
+            currentFrame = ImageProcessing.getDownSize(currentFrame)
             counter+=1
 
             # step 1 get moving pixel
+            moving_time = time.time()
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
-
+            # moving = mv.getMovingForeGroundColor(currentFrame,movingFrame)
 
             # step 2 candidate pixel ( color probability )
+            color_time = time.time()
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
 
             #region growing
+            region_time = time.time()
             region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
 
             # step 3 region candidate pixel ( region size )
+            size_time = time.time()
             sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
 
             #preparing classification
@@ -64,9 +69,13 @@ def readingVideo(videoFile):
                 continue
             list_wavelet.pop(0)
 
+            classification_time = time.time()
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
 
+            final_time = time.time()
             fireFrameImage = (ImageProcessing.getUpSize(Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
+            fireFrameImage = ((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
+            # print color_time-moving_time, region_time-color_time, size_time-region_time,classification_time-size_time,final_time-classification_time, (classification_time-moving_time)*30
             File.showVideo('Final',fireFrameImage)
 
             if len(movingPixel[0])>0:
@@ -82,7 +91,7 @@ def readingVideo(videoFile):
 
             File.waitVideo(1)
 
-        except ValueError:
+        except :
             print "Time : ",time.time() - starts
             return (fireFrame)/float(AllFrame)
     print "Time : ",time.time() - starts
@@ -90,64 +99,7 @@ def readingVideo(videoFile):
 
 
 if __name__ == '__main__':
-    file = 'api_cars.avi'
-    file = 'api_doll_house2.avi'
-    file = 'api_dora.avi'
-    file = 'api_hutan_besar1.avi'
-    file = 'api_kayu_hutan_besar1.avi'
-    file = 'api_kayu_hutan1.avi'
-    file = 'api_kayu1.avi'
-    file = 'api_kayu2.avi'
-    file = 'api_kertas1.avi'
-    file = 'api_kertas2.avi'
-
-    file = 'api_ladang1.avi'
-    file = 'api_mainan1.avi'
-    file = 'api_mainan2.avi'
-    # file = 'api_mobil1.avi'
-    # file = 'api_mobil2.avi'
-    # file = 'api_rc2.avi'
-    # file = 'api_ruang_tamu1.avi'
-    # file = 'api_senter1.avi'
-    # file = 'api_senter2.avi'
-    # file = 'api_terjun.avi'
-    #
-    # file = 'api_tol2.avi'
-    # file = 'api_truck1.avi'
-    # file = 'api_truck2.avi'
-    # file = 'api_truck3.avi'
-    # file = 'non_api_anak_kecil1.avi'
-    # file = 'non_api_anak_kecil2.avi'
-    # file = 'non_api_anak_kecil3.avi'
-    # file = 'non_api_bertemu.avi'
-    # file = 'non_api_hamdi2.avi'
-    # file = 'non_api_jaket_merah.avi'
-    #
-    # file = 'non_api_jalan_malam1.avi'
-    # file = 'non_api_jalan_malam2.avi'
-    # file = 'non_api_jalan_raya1.avi'
-    # file = 'non_api_jalan_raya2.avi'
-    # file = 'non_api_jalan_raya3.avi'
-    # file = 'non_api_ke_mobil1.avi'
-    # file = 'non_api_ke_mobil2.avi'
-    # file = 'non_api_ke_mobil3.avi'
-    # file = 'non_api_kecelakaan1.avi'
-    # file = 'non_api_kecelakaan2.avi'
-
-    # file = 'non_api_kecelakaan3.avi'
-    # file = 'non_api_las_vegas1.avi'
-    # file = 'non_api_parkiran1.avi'
-    # file = 'non_api_parkiran2.avi'
-    # file = 'non_api_parkiran3.avi'
-    # file = 'non_api_pencuri1.avi'
-    # file = 'non_api_pencuri3.avi'
-    # file = 'non_api_tauran1.avi'
-    # file = 'non_api_tauran2.avi'
-    # file = 'non_api_tauran3.avi'
-    #
-    # file = 'non_api_televisi1.avi'
-    # file = 'non_api_televisi2.avi'
-    # file = 'non_api_tembak3.avi'
+    file = raw_input()
 
     path = '../../dataset/fix_data/'
     print file
@@ -161,7 +113,7 @@ if __name__ == '__main__':
     report.append(file)
     for y in res:
         report.append(y)
-    excel.writeAccuracy('-file-laporan/final_akurasi_5&5x10^-9.xls',report)
+    # excel.writeAccuracy('-file-laporan/final_akurasi_5&5x10^-9.xls',report)
 
     print "Moving | Color | Size Region | Classififcation"
     File.closeVideo(videoFile)

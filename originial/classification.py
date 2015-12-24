@@ -12,7 +12,7 @@ def readDataSet(file):
 
 def getClassifier(datatraining):
     x,y = readDataSet(datatraining)
-    clf = svm.SVC(kernel = 'rbf',C = 5)
+    clf = svm.SVC(kernel = 'poly',C = 5)
     clf.fit(x,y)
     return clf
 
