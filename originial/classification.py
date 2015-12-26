@@ -10,9 +10,9 @@ def readDataSet(file):
     data,classes = excel.readDataSet(file)
     return data, classes
 
-def getClassifier(datatraining):
+def getClassifier(datatraining, kernels, error):
     x,y = readDataSet(datatraining)
-    clf = svm.SVC(kernel = 'poly',C = 5)
+    clf = svm.SVC(kernel = kernels,C = error)
     clf.fit(x,y)
     return clf
 

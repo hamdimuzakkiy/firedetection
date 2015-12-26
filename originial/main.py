@@ -11,6 +11,7 @@ import numpy
 
 
 def readingVideo(videoFile):
+
     Color = preprocessing.ColorDetection()
     File = preprocessing.File()
     RegionGrowing = preprocessing.RegionGrowing()
@@ -22,7 +23,7 @@ def readingVideo(videoFile):
     print "Video Frame : ",File.getCountFrame(videoFile)
     print "Video Size : ",len(File.readVideo(videoFile)[1]),len(File.readVideo(videoFile)[1][0])
 
-    classifier = cls.getClassifier('-file-datatraining/TA.xls')
+    classifier = cls.getClassifier('-file-datatraining/TA.xls','rbf',5)
     fireFrame = numpy.array([0,0,0,0])
     list_wavelet = []
     list_color = Color.getFireArray('color_5x10^-9.txt')

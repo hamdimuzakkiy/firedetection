@@ -328,7 +328,7 @@ class Moving(Intensity,ImageProcessing):
 
     #return learning rate
     def getLearningRate(self):
-        return 0.00
+        return 0.0005
 
     #return index moving foreground ( moving object )
     def getMovingForeGround(self, image):
