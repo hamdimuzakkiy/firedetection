@@ -32,7 +32,10 @@ def doClassification(classifier, list, wavelet):
         cnt= 0
         for y in wavelet:
             res = pow(y[0][x[0]][x[1]],2)+pow(y[1][x[0]][x[1]],2)+pow(y[2][x[0]][x[1]],2)
-            res = (float(res)-float(listMin[cnt]))/(float(listMax[cnt])-float(listMin[cnt]))
+            try:
+                res = (float(res)-float(listMin[cnt]))/(float(listMax[cnt])-float(listMin[cnt]))
+            except:
+                res = 0
             res = float('%.2f' % res)
             cnt+=1
             data.append(res)

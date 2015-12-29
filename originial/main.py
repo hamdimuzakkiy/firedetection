@@ -47,7 +47,6 @@ def readingVideo(videoFile):
             moving_time = time.time()
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
-            # moving = mv.getMovingForeGroundColor(currentFrame,movingFrame)
 
             # step 2 candidate pixel ( color probability )
             color_time = time.time()

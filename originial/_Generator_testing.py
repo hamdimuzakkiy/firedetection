@@ -9,7 +9,7 @@ import copy
 import numpy
 
 
-def readingVideo(videoFile,list_color,classifier):
+def readingVideo(videoFile,list_color,classifier,file_name):
     Color = preprocessing.ColorDetection()
     File = preprocessing.File()
     RegionGrowing = preprocessing.RegionGrowing()
@@ -27,6 +27,7 @@ def readingVideo(videoFile,list_color,classifier):
             currentFrame = File.readVideo(videoFile)[1]
             if len(currentFrame) == 0:
                 return
+            # currentFrame = ImageProcessing.getDownSize(currentFrame)
             currentFrame2 = copy.copy(currentFrame)
             currentFrame = ImageProcessing.getDownSize(currentFrame)
             counter+=1
@@ -42,9 +43,9 @@ def readingVideo(videoFile,list_color,classifier):
                 continue
             list_wavelet.pop(0)
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
-            fireFrameImage = ((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
+            fireFrameImage = ImageProcessing.getUpSize((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
             File.showVideo('Final',fireFrameImage)
-
+            File.saveImage('-laporan- gambar/'+file_name+str(counter)+'.png',fireFrameImage)
             if len(movingPixel[0])>0:
                 fireFrame[0]+=1
             if len(ColorCandidatePixel[0])>0:
@@ -67,20 +68,21 @@ def readingVideo(videoFile,list_color,classifier):
 
 if __name__ == '__main__':
     list_variance = []
-    list_variance.append(['color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
-    list_variance.append(['color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
-    list_variance.append(['color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf.xls'])
-    list_variance.append(['color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
-
-    list_variance.append(['color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
-    list_variance.append(['color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
+    # list_variance.append(['color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
+    # list_variance.append(['color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
+    # list_variance.append(['color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf3.xls'])
+    # list_variance.append(['color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
+    #
+    # list_variance.append(['color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
+    # list_variance.append(['color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
     list_variance.append(['color_5x10^-9.txt',7,'rbf','5x10^-9_7_rbf.xls'])
-
-    list_variance.append(['color_5x10^-9.txt',5,'poly','5x10^-9_5_poly.xls'])
-    list_variance.append(['color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
+    #
+    # list_variance.append(['color_5x10^-9.txt',5,'poly','5x10^-9_5_poly.xls'])
+    # list_variance.append(['color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
     for variasi in list_variance:
         print variasi
         path = '../../dataset/fix_data/'
+        path = '../../dataset/data/'
         File = preprocessing.File()
         Color = preprocessing.ColorDetection()
         list_file = File.readFolder(path)
@@ -91,7 +93,7 @@ if __name__ == '__main__':
             print x
             fileName = path+x
             videoFile = File.openVideo(fileName)
-            res, frameCounter, times = readingVideo(videoFile,list_color,classifier)
+            res, frameCounter, times = readingVideo(videoFile,list_color,classifier,x)
             res*=100
             print "Acc : ",res,' %'
             report = []
@@ -101,6 +103,6 @@ if __name__ == '__main__':
             report.append('')
             report.append(frameCounter)
             report.append(times)
-            excel.writeAccuracy('-file-laporan/'+variasi[3],report)
+            # excel.writeAccuracy('-file-laporan/'+variasi[3],report)
             print "Moving | Color | Size Region | Classififcation"
             File.closeVideo(videoFile)

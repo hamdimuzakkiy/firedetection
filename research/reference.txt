@@ -1,3 +1,0 @@
-https://kyamagu.github.io/mexopencv/matlab/BackgroundSubtractorMOG.history.html
-http://www.mathsisfun.com/data/standard-deviation.html
-Error pixel : http://stackoverflow.com/questions/19474037/pixel-values-changing-after-doing-imwrite-in-matlab

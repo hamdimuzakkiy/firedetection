@@ -1,3 +1,0 @@
-https://pythonhosted.org/pyrwt/wavelets.html
-http://www.pybytes.com/pywavelets/#documentation
-https://github.com/PyWavelets/pywt/tree/master/demo
