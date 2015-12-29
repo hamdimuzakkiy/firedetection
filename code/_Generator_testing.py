@@ -67,20 +67,21 @@ def readingVideo(videoFile,list_color,classifier,file_name):
 
 if __name__ == '__main__':
     list_variance = []
-    # list_variance.append(['color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
-    # list_variance.append(['color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
-    # list_variance.append(['color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf3.xls'])
-    # list_variance.append(['color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
-    #
-    # list_variance.append(['color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
-    # list_variance.append(['color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
+
+    #variasi threshold, kernel, dan C
+
+    list_variance.append(['-dataset-fire_file/color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
+    list_variance.append(['-dataset-fire_file/color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf3.xls'])
+    list_variance.append(['-dataset-fire_file/color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
     list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',7,'rbf','5x10^-9_7_rbf.xls'])
-    #
-    # list_variance.append(['color_5x10^-9.txt',5,'poly','5x10^-9_5_poly.xls'])
-    # list_variance.append(['color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_poly.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
     for variasi in list_variance:
         print variasi
-        path = '../data uji/'
+        path = '../data uji2/'
         File = preprocessing.File()
         Color = preprocessing.ColorDetection()
         list_file = File.readFolder(path)
@@ -101,6 +102,6 @@ if __name__ == '__main__':
             report.append('')
             report.append(frameCounter)
             report.append(times)
-            # excel.writeAccuracy('-file-laporan/'+variasi[3],report)
+            excel.writeAccuracy('-file-laporan/'+variasi[3],report)
             print "Moving | Color | Size Region | Classififcation"
             File.closeVideo(videoFile)
