@@ -8,7 +8,6 @@ import time
 import copy
 import numpy
 
-
 def readingVideo(videoFile,list_color,classifier,file_name):
     Color = preprocessing.ColorDetection()
     File = preprocessing.File()
@@ -44,7 +43,7 @@ def readingVideo(videoFile,list_color,classifier,file_name):
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
             fireFrameImage = ImageProcessing.getUpSize((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
             File.showVideo('Final',fireFrameImage)
-            File.saveImage('-laporan- gambar/'+file_name+str(counter)+'.png',fireFrameImage)
+            
             if len(movingPixel[0])>0:
                 fireFrame[0]+=1
             if len(ColorCandidatePixel[0])>0:
@@ -81,7 +80,7 @@ if __name__ == '__main__':
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
     for variasi in list_variance:
         print variasi
-        path = '../data uji2/'
+        path = '../data uji/'
         File = preprocessing.File()
         Color = preprocessing.ColorDetection()
         list_file = File.readFolder(path)

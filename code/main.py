@@ -40,6 +40,8 @@ def readingVideo(videoFile):
             currentFrame = ImageProcessing.getDownSize(currentFrame)
             counter+=1
 
+            File.saveImage('ss/'+str(counter)+'.png',currentFrame)
+
             # step 1 get moving pixel
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
