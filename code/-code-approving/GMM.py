@@ -6,10 +6,10 @@ import copy
 
 def probability(x,mean,stdev):
     bawah = float(1)/np.sqrt(2*np.pi*stdev)
-    atas = np.exp(-(x-mean)*(x-mean)*stdev/2)
+    atas = np.exp(-(x-mean)*(x-mean)/(2*stdev))
     return atas/bawah
 
-image = cv2.imread('1.png')
+image = cv2.imread('83.png')
 image = cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
 
 gaussian = []
@@ -22,7 +22,7 @@ for row in range(0,len(image)):
             g[row][col][0] = float(1)/float(len(gaussian)) # w
             g[row][col][1] = image[row][col] # mean
             g[row][col][2] = 20 # deviasi
-for img in range(2,177):
+for img in range(84,177):
     threshold = 0.5
     learning_rate = 0.002
     next_image = cv2.imread(str(img)+'.png')

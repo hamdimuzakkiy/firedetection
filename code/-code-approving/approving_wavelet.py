@@ -82,9 +82,12 @@ def wavelet(image):
     return approx,horizontal,vertikal,diagonal
 
 if __name__ == '__main__':
-    image = cv2.imread('api-boneka_dora.avi71.png')
+    image = cv2.imread('DSCF2037.JPG')
+    for x in range(0,3):
+        image = cv2.pyrDown(image)
     image = cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
-    a,h,v,d = wavelet(image)
+    # a,h,v,d = wavelet(image)
+    a,(h,v,d) = pywt.dwt2(image,'db2')
     cv2.imwrite('a.png',a)
     cv2.imwrite('h.png',h)
     cv2.imwrite('v.png',v)

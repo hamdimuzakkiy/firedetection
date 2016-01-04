@@ -362,6 +362,15 @@ class Moving(Intensity,ImageProcessing):
             image[max_y][x] = [255,191,0]
         return image
 
+    def markingFire2(self, list_fire, image):
+        if len(list_fire) == 0:
+            return image
+
+        for x in list_fire:
+            coory,coorx = x[0],x[1]
+            image[coory][coorx] = [255,191,0]
+        return image
+
 class RegionGrowing(Data,ImageProcessing,File):
 
     def __init__(self):
