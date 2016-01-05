@@ -71,12 +71,12 @@ if __name__ == '__main__':
 
     # list_variance.append(['-dataset-fire_file/color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
-    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf3.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf3.xls'])
     # list_variance.append(['-dataset-fire_file/color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',7,'rbf','5x10^-9_7_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_poly.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_poly2.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
     for variasi in list_variance:
         print variasi
