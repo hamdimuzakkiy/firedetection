@@ -6,6 +6,8 @@ import wavelet as wv
 import time
 import copy
 import numpy
+import moving as mv
+
 
 def readingVideo(videoFile):
 
@@ -40,15 +42,28 @@ def readingVideo(videoFile):
             currentFrame = ImageProcessing.getDownSize(currentFrame)
             counter+=1
 
+            File.saveImage('-code-approving/'+str(counter)+'.png',currentFrame)
+            File.saveImage('-code-approving/'+str(counter)+'_2.png',currentFrame2)
+
             # step 1 get moving pixel
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
+            mvng = mv.getMovingForeGroundColor(currentFrame,movingFrame)
+
+            File.saveImage('-code-approving/mvng'+str(counter)+'.png',mvng)
 
             # step 2 candidate pixel ( color probability )
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
+            clr = mv.delPixel(ColorCandidatePixel[1], mvng)
+
+            File.saveImage('-code-approving/clr'+str(counter)+'.png',mvng)
 
             #region growing
             region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
+
+            for y in range(0,len(region)):
+                for x in range((0,len(region[y]))):
+                    pass
 
             # step 3 region candidate pixel ( region size )
             sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
