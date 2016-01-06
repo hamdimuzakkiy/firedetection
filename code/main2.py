@@ -42,22 +42,37 @@ def readingVideo(videoFile):
             currentFrame = ImageProcessing.getDownSize(currentFrame)
             counter+=1
 
+            File.saveImage('-code-approving/'+str(counter)+'.png',currentFrame)
+            File.saveImage('-code-approving/'+str(counter)+'_2.png',currentFrame2)
+
             # step 1 get moving pixel
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
             mvng = mv.getMovingForeGroundColor(currentFrame,movingFrame)
 
+            File.saveImage('-code-approving/mvng'+str(counter)+'.png',mvng)
+
             # step 2 candidate pixel ( color probability )
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
             clr = mv.delPixel(ColorCandidatePixel[1], mvng)
+
+            File.saveImage('-code-approving/clr'+str(counter)+'.png',clr)
 
             #region growing
             region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
 
             reg = copy.copy(currentFrame)
 
+            for y in range(0,len(region)):
+                for x in range(0,len(region[y])):                    
+                    if region[y][x] == 0:
+                        reg[y][x] = [0,0,0]
+
             # step 3 region candidate pixel ( region size )
             sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
+            siz = mv.delPixel(sizeRegionCandidatePixel[1], clr)
+
+            File.saveImage('-code-approving/siz'+str(counter)+'.png',siz)
 
             #preparing classification
             grayImage = ImageProcessing.getRGBtoGray(currentFrame2)
@@ -70,9 +85,14 @@ def readingVideo(videoFile):
 
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
 
-            # fireFrameImage = Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)
-            fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
+            fireFrameImage = Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)
+            fre = mv.delPixel(FinalCandidatePixel[1], siz)
+            File.saveImage('-code-approving/fre'+str(counter)+'.png',fre)
+
+            # fireFrameImage = Moving.markingFire(FinalCandidatePixel[0],currentFrame)
             File.showVideo('Final',fireFrameImage)
+
+            File.saveImage('-code-approving/fnl'+str(counter)+'.png',fireFrameImage)
 
             if len(movingPixel[0])>0:
                 fireFrame[0]+=1

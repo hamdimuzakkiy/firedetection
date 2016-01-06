@@ -4,6 +4,7 @@ __author__ = 'hamdiahmadi'
 import cv2
 import numpy as np
 import pywt
+import copy
 
 
 def coeficient():
@@ -77,18 +78,29 @@ def colWavelet(image):
 
 def wavelet(image):
     row_low,row_high = rowWavelet(image)
+
+    cv2.imwrite('low.png',row_low)
+    cv2.imwrite('high.png',toBNW(copy.copy(row_high)))
+
     approx,horizontal = colWavelet(row_low)
     vertikal,diagonal = colWavelet(row_high)
     return approx,horizontal,vertikal,diagonal
 
+def toBNW(image):
+    for y in range(0,len(image)):
+        for x in range(0,len(image[y])):
+            if image[y][x] > 0:
+                image[y][x]*=4
+    return image
+
 if __name__ == '__main__':
-    image = cv2.imread('DSCF2037.JPG')
-    for x in range(0,3):
-        image = cv2.pyrDown(image)
+    image = cv2.imread('1_2.png')
+    # for x in range(0,3):
+    #     image = cv2.pyrDown(image)
     image = cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
     a,h,v,d = wavelet(image)
     # a,(h,v,d) = pywt.dwt2(image,'db2')
     cv2.imwrite('a.png',a)
-    cv2.imwrite('h.png',h)
-    cv2.imwrite('v.png',v)
-    cv2.imwrite('d.png',d)
+    cv2.imwrite('h.png',toBNW(h))
+    cv2.imwrite('v.png',toBNW(v))
+    cv2.imwrite('d.png',toBNW(d))
