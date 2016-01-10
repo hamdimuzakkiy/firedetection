@@ -36,6 +36,7 @@ def readingVideo(videoFile,list_color,classifier,file_name):
             sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
             grayImage = ImageProcessing.getRGBtoGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
+
             list_wavelet.append([HL,LH,HH])
             if (counter<=10):
                 continue
@@ -71,16 +72,16 @@ if __name__ == '__main__':
 
     # list_variance.append(['-dataset-fire_file/color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5x10^-9_5_rbf3.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','10.xls'])
     # list_variance.append(['-dataset-fire_file/color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',7,'rbf','5x10^-9_7_rbf.xls'])
-    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_poly2.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_poly2.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
     for variasi in list_variance:
         print variasi
-        path = '../data uji/'
+        path = '../data demo/'
         File = preprocessing.File()
         Color = preprocessing.ColorDetection()
         list_file = File.readFolder(path)
@@ -93,7 +94,7 @@ if __name__ == '__main__':
             videoFile = File.openVideo(fileName)
             res, frameCounter, times = readingVideo(videoFile,list_color,classifier,x)
             res*=100
-            print "Acc : ",res,' %'
+            print "Acc : ",res[3],' %'
             report = []
             report.append(x)
             for y in res:
@@ -102,5 +103,5 @@ if __name__ == '__main__':
             report.append(frameCounter)
             report.append(times)
             # excel.writeAccuracy('-file-laporan/'+variasi[3],report)
-            print "Moving | Color | Size Region | Classififcation"
+            # print "Moving | Color | Size Region | Classififcation"
             File.closeVideo(videoFile)

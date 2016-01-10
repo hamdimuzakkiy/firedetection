@@ -324,6 +324,7 @@ class Moving(Intensity,ImageProcessing):
         try:
             self.BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
         except:
+            # self.BckgrSbsMOG = cv2.BackgroundSubtractorMOG()
             self.BckgrSbsMOG = cv2.createBackgroundSubtractorMOG2()
 
     #return learning rate
@@ -484,15 +485,6 @@ class RegionGrowing(Data,ImageProcessing,File):
                 true_pixel.append([x[0],x[1]])
             else :
                 true_pixel.append([x[0],x[1]])
-
-        # for x in result_dict:
-        #     tmp = np.where(list_region_growing[len(list_region_growing)-1] == x)
-        #     if result_dict[x] == True:
-        #         for y in range(0,len(tmp[0])):
-        #             true_pixel.append([tmp[0][y],tmp[1][y]])
-        #     else :
-        #         for y in range(0,len(tmp[0])):
-        #             false_pixel.append([tmp[0][y],tmp[1][y]])
         return true_pixel,false_pixel
 
     #return floodfill image

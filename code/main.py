@@ -6,7 +6,6 @@ import wavelet as wv
 import time
 import copy
 import numpy
-import moving as mv
 
 
 def readingVideo(videoFile):
@@ -45,16 +44,12 @@ def readingVideo(videoFile):
             # step 1 get moving pixel
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
-            mvng = mv.getMovingForeGroundColor(currentFrame,movingFrame)
 
             # step 2 candidate pixel ( color probability )
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
-            clr = mv.delPixel(ColorCandidatePixel[1], mvng)
 
             #region growing
             region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
-
-            reg = copy.copy(currentFrame)
 
             # step 3 region candidate pixel ( region size )
             sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
@@ -70,8 +65,8 @@ def readingVideo(videoFile):
 
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
 
-            # fireFrameImage = Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)
-            fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
+            fireFrameImage = Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)
+            # fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
             File.showVideo('Final',fireFrameImage)
 
             if len(movingPixel[0])>0:
@@ -104,7 +99,7 @@ if __name__ == '__main__':
     File = preprocessing.File()
     videoFile = File.openVideo(fileName)
     res = readingVideo(videoFile)*100
-    print "Acc : ",res,' %'
+    print "Acc : ",res[3],' %'
 
-    print "Moving | Color | Size Region | Classififcation"
+    # print "Moving | Color | Size Region | Classififcation"
     File.closeVideo(videoFile)
