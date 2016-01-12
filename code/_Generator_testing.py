@@ -26,14 +26,17 @@ def readingVideo(videoFile,list_color,classifier,file_name):
             currentFrame = File.readVideo(videoFile)[1]
             if len(currentFrame) == 0:
                 return
+
             currentFrame2 = copy.copy(currentFrame)
             currentFrame = ImageProcessing.getDownSize(currentFrame)
+
             counter+=1
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
-            region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
-            sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
+            # region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
+            # sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
+            sizeRegionCandidatePixel = copy.copy(ColorCandidatePixel)
             grayImage = ImageProcessing.getRGBtoGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
 
@@ -42,7 +45,8 @@ def readingVideo(videoFile,list_color,classifier,file_name):
                 continue
             list_wavelet.pop(0)
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
-            fireFrameImage = ImageProcessing.getUpSize((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
+            fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
+            # fireFrameImage = ImageProcessing.getUpSize((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
             File.showVideo('Final',fireFrameImage)
             
             if len(movingPixel[0])>0:
@@ -70,15 +74,24 @@ if __name__ == '__main__':
 
     #variasi threshold, kernel, dan C
 
-    # list_variance.append(['-dataset-fire_file/color_10^-7.txt',5,'rbf','10^-7_5_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_10^-8.txt',5,'rbf','10^-8_5_rbf.xls'])
-    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','test.xls'])
-    # list_variance.append(['-dataset-fire_file/color_10^-9.txt',5,'rbf','10^-9_5_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',1,'rbf','5x10^-9_1_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',3.5,'rbf','5x10^-9_3.5_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',7,'rbf','5x10^-9_7_rbf.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_poly2.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','5x10^-9_5_linear.xls'])
+    # list_variance.append(['-dataset-fire_file/color_10^-7.txt',5,'rbf','1_1.xls'])
+    # list_variance.append(['-dataset-fire_file/color_10^-8.txt',5,'rbf','1_2.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','1_3.xls'])
+    # list_variance.append(['-dataset-fire_file/color_10^-9.txt',5,'rbf','1_4.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',1,'rbf','2_1.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',3.5,'rbf','2_2.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',7,'rbf','2_3.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','3_1.xls'])
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'poly','3_2.xls']) #poly 3
+
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','4_1.xls']) #5%
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','4_2.xls']) #10%
+
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5_1.xls']) #240 x 320
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5_2.xls']) #120 x 160
+
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','original.xls']) #originalpaper
+
     for variasi in list_variance:
         print variasi
         path = '../data uji/'
@@ -94,7 +107,7 @@ if __name__ == '__main__':
             videoFile = File.openVideo(fileName)
             res, frameCounter, times = readingVideo(videoFile,list_color,classifier,x)
             res*=100
-            print "Acc : ",res[3],' %'
+            print "Acc : ",res,' %'
             report = []
             report.append(x)
             for y in res:
