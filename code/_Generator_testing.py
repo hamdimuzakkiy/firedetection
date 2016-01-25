@@ -34,9 +34,8 @@ def readingVideo(videoFile,list_color,classifier,file_name):
             movingFrame = Moving.getMovingForeGround(copy.copy(currentFrame))
             movingPixel = Moving.getMovingCandidatePixel(movingFrame)
             ColorCandidatePixel = Color.getColorCandidatePixel(copy.copy(movingPixel), copy.copy(currentFrame), list_color)
-            # region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
-            # sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
-            sizeRegionCandidatePixel = copy.copy(ColorCandidatePixel)
+            region = RegionGrowing.getRegionGrowing(ColorCandidatePixel[0], copy.copy(currentFrame),list_color,counter)
+            sizeRegionCandidatePixel = RegionGrowing.getFilterSizeRegion(copy.copy(ColorCandidatePixel[0]),copy.copy(region))
             grayImage = ImageProcessing.getRGBtoGray(currentFrame2)
             LL,(HL,LH,HH) = wv.toWavelet(copy.copy(grayImage))
 
@@ -45,8 +44,8 @@ def readingVideo(videoFile,list_color,classifier,file_name):
                 continue
             list_wavelet.pop(0)
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
-            fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
-            # fireFrameImage = ImageProcessing.getUpSize((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
+            # fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
+            fireFrameImage = ImageProcessing.getUpSize((Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)))
             File.showVideo('Final',fireFrameImage)
             
             if len(movingPixel[0])>0:
@@ -76,7 +75,7 @@ if __name__ == '__main__':
 
     # list_variance.append(['-dataset-fire_file/color_10^-7.txt',5,'rbf','1_1.xls'])
     # list_variance.append(['-dataset-fire_file/color_10^-8.txt',5,'rbf','1_2.xls'])
-    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','1_3.xls'])
+    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','retesting.xls'])
     # list_variance.append(['-dataset-fire_file/color_10^-9.txt',5,'rbf','1_4.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',1,'rbf','2_1.xls'])
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',3.5,'rbf','2_2.xls'])
@@ -90,7 +89,7 @@ if __name__ == '__main__':
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5_1.xls']) #240 x 320
     # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','5_2.xls']) #120 x 160
 
-    list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','original.xls']) #originalpaper
+    # list_variance.append(['-dataset-fire_file/color_5x10^-9.txt',5,'rbf','original.xls']) #originalpaper
 
     for variasi in list_variance:
         print variasi
@@ -107,7 +106,7 @@ if __name__ == '__main__':
             videoFile = File.openVideo(fileName)
             res, frameCounter, times = readingVideo(videoFile,list_color,classifier,x)
             res*=100
-            print "Acc : ",res,' %'
+            print "Acc : ",res[3],' %'
             report = []
             report.append(x)
             for y in res:
@@ -115,6 +114,6 @@ if __name__ == '__main__':
             report.append('')
             report.append(frameCounter)
             report.append(times)
-            excel.writeAccuracy('-file-laporan/'+variasi[3],report)
+            # excel.writeAccuracy('-file-laporan/'+variasi[3],report)
             # print "Moving | Color | Size Region | Classififcation"
             File.closeVideo(videoFile)

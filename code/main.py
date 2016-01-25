@@ -66,6 +66,7 @@ def readingVideo(videoFile):
             FinalCandidatePixel = cls.doClassification(classifier,copy.copy(sizeRegionCandidatePixel[0]),list_wavelet)
 
             fireFrameImage = Moving.markingFire(FinalCandidatePixel[0],currentFrame2, 2)
+
             # fireFrameImage = Moving.markingFire2(FinalCandidatePixel[0],currentFrame)
             File.showVideo('Final',fireFrameImage)
 
